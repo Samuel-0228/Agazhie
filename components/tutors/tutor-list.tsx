@@ -1,7 +1,7 @@
 'use client'
 
 import { TutorCard, type Tutor } from './tutor-card'
-import { Empty } from '@/components/ui/empty'
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription } from '@/components/ui/empty'
 import { Search } from 'lucide-react'
 
 interface TutorListProps {
@@ -11,11 +11,17 @@ interface TutorListProps {
 export function TutorList({ tutors }: TutorListProps) {
   if (tutors.length === 0) {
     return (
-      <Empty
-        icon={Search}
-        title="No tutors found"
-        description="Try adjusting your filters or search criteria to find more tutors."
-      />
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <Search />
+          </EmptyMedia>
+          <EmptyTitle>No tutors found</EmptyTitle>
+          <EmptyDescription>
+            Try adjusting your filters or search criteria to find more tutors.
+          </EmptyDescription>
+        </EmptyHeader>
+      </Empty>
     )
   }
 

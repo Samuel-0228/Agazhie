@@ -3,7 +3,14 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Star, MapPin, CheckCircle2 } from 'lucide-react'
+import { Star, MapPin, CheckCircle2, Brain, Clock, MessageCircle, Heart } from 'lucide-react'
+
+export interface TutorRatings {
+  intelligence: number
+  punctuality: number
+  communication: number
+  loyalty: number
+}
 
 export interface Tutor {
   id: string
@@ -18,10 +25,22 @@ export interface Tutor {
   isVerified: boolean
   specialization?: string
   bio: string
+  grades?: string[]
+  availability?: string
+  ratings?: TutorRatings
 }
 
 interface TutorCardProps {
   tutor: Tutor
+}
+
+function RatingPill({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: number }) {
+  return (
+    <div className="flex items-center gap-1 text-xs text-muted-foreground" title={label}>
+      <Icon className="h-3 w-3" />
+      <span>{value.toFixed(1)}</span>
+    </div>
+  )
 }
 
 export function TutorCard({ tutor }: TutorCardProps) {
@@ -37,7 +56,7 @@ export function TutorCard({ tutor }: TutorCardProps) {
             </Avatar>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <Link 
+                <Link
                   href={`/tutors/${tutor.id}`}
                   className="font-semibold hover:text-primary transition-colors truncate"
                 >
@@ -66,6 +85,14 @@ export function TutorCard({ tutor }: TutorCardProps) {
               <p className="mt-3 text-sm text-muted-foreground line-clamp-2">
                 {tutor.bio}
               </p>
+              {tutor.ratings && (
+                <div className="mt-2 flex flex-wrap gap-3">
+                  <RatingPill icon={Brain} label="Intelligence" value={tutor.ratings.intelligence} />
+                  <RatingPill icon={Clock} label="Punctuality" value={tutor.ratings.punctuality} />
+                  <RatingPill icon={MessageCircle} label="Communication" value={tutor.ratings.communication} />
+                  <RatingPill icon={Heart} label="Loyalty" value={tutor.ratings.loyalty} />
+                </div>
+              )}
             </div>
           </div>
           <div className="flex flex-row items-center justify-between gap-4 border-t border-border bg-muted/30 p-4 sm:flex-col sm:items-end sm:justify-center sm:border-l sm:border-t-0 sm:p-6">
