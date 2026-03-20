@@ -29,6 +29,7 @@ function LoginForm() {
       if (error) {
         toast.error(error.message)
       } else {
+        router.refresh()
         router.push(redirect)
       }
     } catch {
