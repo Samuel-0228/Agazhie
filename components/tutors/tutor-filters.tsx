@@ -42,9 +42,19 @@ const subjects = [
 ]
 
 const gradeLevels = [
-  { value: '9-10', label: 'Grade 9-10' },
-  { value: '11-12', label: 'Grade 11-12' },
-  { value: 'university', label: 'University' },
+  { value: '1', label: 'Grade 1' },
+  { value: '2', label: 'Grade 2' },
+  { value: '3', label: 'Grade 3' },
+  { value: '4', label: 'Grade 4' },
+  { value: '5', label: 'Grade 5' },
+  { value: '6', label: 'Grade 6' },
+  { value: '7', label: 'Grade 7' },
+  { value: '8', label: 'Grade 8' },
+  { value: '9', label: 'Grade 9' },
+  { value: '10', label: 'Grade 10' },
+  { value: '11', label: 'Grade 11' },
+  { value: '12', label: 'Grade 12' },
+  { value: 'freshman', label: 'Freshman' },
 ]
 
 const specializations = [
@@ -62,6 +72,14 @@ const locations = [
   'Online Only',
 ]
 
+const availabilityOptions = [
+  { value: 'weekdays', label: 'Weekdays' },
+  { value: 'weekends', label: 'Weekends' },
+  { value: 'mornings', label: 'Mornings' },
+  { value: 'afternoons', label: 'Afternoons' },
+  { value: 'evenings', label: 'Evenings' },
+]
+
 interface TutorFiltersProps {
   className?: string
 }
@@ -75,52 +93,80 @@ function FilterContent({ onClose }: { onClose?: () => void }) {
   const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>(
     searchParams.get('specializations')?.split(',').filter(Boolean) || []
   )
+  const [minPrice, setMinPrice] = useState(searchParams.get('minPrice') || '')
+  const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '')
+  const [selectedAvailability, setSelectedAvailability] = useState<string[]>(
+    searchParams.get('availability')?.split(',').filter(Boolean) || []
+  )
 
   const updateFilters = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString())
-    
+
     if (selectedSubjects.length > 0) {
       params.set('subjects', selectedSubjects.join(','))
     } else {
       params.delete('subjects')
     }
-    
+
     if (selectedSpecializations.length > 0) {
       params.set('specializations', selectedSpecializations.join(','))
     } else {
       params.delete('specializations')
     }
-    
+
+    if (minPrice) {
+      params.set('minPrice', minPrice)
+    } else {
+      params.delete('minPrice')
+    }
+
+    if (maxPrice) {
+      params.set('maxPrice', maxPrice)
+    } else {
+      params.delete('maxPrice')
+    }
+
+    if (selectedAvailability.length > 0) {
+      params.set('availability', selectedAvailability.join(','))
+    } else {
+      params.delete('availability')
+    }
+
     router.push(`/tutors?${params.toString()}`)
     onClose?.()
-  }, [router, searchParams, selectedSubjects, selectedSpecializations, onClose])
+  }, [router, searchParams, selectedSubjects, selectedSpecializations, minPrice, maxPrice, selectedAvailability, onClose])
 
   const clearFilters = useCallback(() => {
     setSelectedSubjects([])
     setSelectedSpecializations([])
+    setMinPrice('')
+    setMaxPrice('')
+    setSelectedAvailability([])
     router.push('/tutors')
     onClose?.()
   }, [router, onClose])
 
   const toggleSubject = (subject: string) => {
     setSelectedSubjects(prev =>
-      prev.includes(subject)
-        ? prev.filter(s => s !== subject)
-        : [...prev, subject]
+      prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev, subject]
     )
   }
 
   const toggleSpecialization = (spec: string) => {
     setSelectedSpecializations(prev =>
-      prev.includes(spec)
-        ? prev.filter(s => s !== spec)
-        : [...prev, spec]
+      prev.includes(spec) ? prev.filter(s => s !== spec) : [...prev, spec]
+    )
+  }
+
+  const toggleAvailability = (avail: string) => {
+    setSelectedAvailability(prev =>
+      prev.includes(avail) ? prev.filter(a => a !== avail) : [...prev, avail]
     )
   }
 
   return (
     <div className="flex flex-col gap-6">
-      <Accordion type="multiple" defaultValue={['subjects', 'specialization']} className="w-full">
+      <Accordion type="multiple" defaultValue={['subjects', 'specialization', 'grade']} className="w-full">
         <AccordionItem value="subjects">
           <AccordionTrigger className="text-sm font-medium">Subjects</AccordionTrigger>
           <AccordionContent>
@@ -141,6 +187,36 @@ function FilterContent({ onClose }: { onClose?: () => void }) {
                 </div>
               ))}
             </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="grade">
+          <AccordionTrigger className="text-sm font-medium">Grade Level</AccordionTrigger>
+          <AccordionContent>
+            <Select
+              defaultValue={searchParams.get('grade') || undefined}
+              onValueChange={(value) => {
+                const params = new URLSearchParams(searchParams.toString())
+                if (value === 'all') {
+                  params.delete('grade')
+                } else {
+                  params.set('grade', value)
+                }
+                router.push(`/tutors?${params.toString()}`)
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select grade" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Grades</SelectItem>
+                {gradeLevels.map((level) => (
+                  <SelectItem key={level.value} value={level.value}>
+                    {level.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </AccordionContent>
         </AccordionItem>
 
@@ -167,39 +243,66 @@ function FilterContent({ onClose }: { onClose?: () => void }) {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="grade">
-          <AccordionTrigger className="text-sm font-medium">Grade Level</AccordionTrigger>
+        <AccordionItem value="price">
+          <AccordionTrigger className="text-sm font-medium">Price Range (ETB/hr)</AccordionTrigger>
           <AccordionContent>
-            <Select 
-              defaultValue={searchParams.get('grade') || undefined}
-              onValueChange={(value) => {
-                const params = new URLSearchParams(searchParams.toString())
-                params.set('grade', value)
-                router.push(`/tutors?${params.toString()}`)
-              }}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select grade" />
-              </SelectTrigger>
-              <SelectContent>
-                {gradeLevels.map((level) => (
-                  <SelectItem key={level.value} value={level.value}>
-                    {level.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                placeholder="Min"
+                className="w-full"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                min={0}
+              />
+              <span className="text-muted-foreground">–</span>
+              <Input
+                type="number"
+                placeholder="Max"
+                className="w-full"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                min={0}
+              />
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="availability">
+          <AccordionTrigger className="text-sm font-medium">Availability</AccordionTrigger>
+          <AccordionContent>
+            <div className="flex flex-col gap-2">
+              {availabilityOptions.map((opt) => (
+                <div key={opt.value} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`avail-${opt.value}`}
+                    checked={selectedAvailability.includes(opt.value)}
+                    onCheckedChange={() => toggleAvailability(opt.value)}
+                  />
+                  <Label
+                    htmlFor={`avail-${opt.value}`}
+                    className="text-sm font-normal cursor-pointer"
+                  >
+                    {opt.label}
+                  </Label>
+                </div>
+              ))}
+            </div>
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="location">
           <AccordionTrigger className="text-sm font-medium">Location</AccordionTrigger>
           <AccordionContent>
-            <Select 
+            <Select
               defaultValue={searchParams.get('location') || undefined}
               onValueChange={(value) => {
                 const params = new URLSearchParams(searchParams.toString())
-                params.set('location', value)
+                if (value === 'all') {
+                  params.delete('location')
+                } else {
+                  params.set('location', value)
+                }
                 router.push(`/tutors?${params.toString()}`)
               }}
             >
@@ -207,8 +310,9 @@ function FilterContent({ onClose }: { onClose?: () => void }) {
                 <SelectValue placeholder="Select location" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="all">All Locations</SelectItem>
                 {locations.map((loc) => (
-                  <SelectItem key={loc} value={loc.toLowerCase().replace(' ', '-')}>
+                  <SelectItem key={loc} value={loc.toLowerCase().replace(/ /g, '-')}>
                     {loc}
                   </SelectItem>
                 ))}

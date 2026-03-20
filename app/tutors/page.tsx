@@ -21,6 +21,9 @@ const sampleTutors: Tutor[] = [
     isVerified: true,
     specialization: 'EUEE Expert',
     bio: 'Final year physics student with 3 years of tutoring experience. Helped 50+ students score above 90% in EUEE physics. Patient and methodical teaching approach.',
+    grades: ['9', '10', '11', '12'],
+    availability: 'weekdays,evenings,weekends',
+    ratings: { intelligence: 4.9, punctuality: 4.8, communication: 4.9, loyalty: 5.0 },
   },
   {
     id: '2',
@@ -35,6 +38,9 @@ const sampleTutors: Tutor[] = [
     isVerified: true,
     specialization: 'SAT Prep',
     bio: 'Scored 1520 on SAT and passionate about helping students achieve their dreams of studying abroad. Specializing in SAT Math and English preparation.',
+    grades: ['9', '10', '11', '12', 'freshman'],
+    availability: 'weekends,afternoons',
+    ratings: { intelligence: 4.9, punctuality: 4.7, communication: 4.8, loyalty: 4.8 },
   },
   {
     id: '3',
@@ -48,6 +54,9 @@ const sampleTutors: Tutor[] = [
     location: 'Bahir Dar',
     isVerified: true,
     bio: 'Medical school aspirant with strong foundation in natural sciences. I make complex biological concepts easy to understand through visual learning and real-world examples.',
+    grades: ['7', '8', '9', '10', '11', '12'],
+    availability: 'mornings,afternoons',
+    ratings: { intelligence: 4.7, punctuality: 4.8, communication: 4.6, loyalty: 4.7 },
   },
   {
     id: '4',
@@ -62,6 +71,9 @@ const sampleTutors: Tutor[] = [
     isVerified: true,
     specialization: 'EUEE Expert',
     bio: 'Top scorer in national mathematics olympiad. Specialized in helping struggling students build confidence and strong foundations in mathematics.',
+    grades: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+    availability: 'weekdays,weekends,evenings',
+    ratings: { intelligence: 5.0, punctuality: 4.9, communication: 4.8, loyalty: 5.0 },
   },
   {
     id: '5',
@@ -76,6 +88,9 @@ const sampleTutors: Tutor[] = [
     isVerified: true,
     specialization: 'IELTS/TOEFL',
     bio: 'IELTS Band 8.5 scorer offering comprehensive English language tutoring. Flexible online sessions for students anywhere in Ethiopia.',
+    grades: ['5', '6', '7', '8', '9', '10', '11', '12', 'freshman'],
+    availability: 'mornings,evenings,weekends',
+    ratings: { intelligence: 4.6, punctuality: 4.5, communication: 4.9, loyalty: 4.6 },
   },
   {
     id: '6',
@@ -89,6 +104,9 @@ const sampleTutors: Tutor[] = [
     location: 'Mekelle',
     isVerified: true,
     bio: 'Chemistry graduate with a passion for making science fun and accessible. I use interactive experiments and demonstrations to help concepts stick.',
+    grades: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+    availability: 'afternoons,evenings',
+    ratings: { intelligence: 4.8, punctuality: 4.9, communication: 4.7, loyalty: 4.8 },
   },
 ]
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
@@ -19,7 +19,18 @@ import {
 } from '@/components/ui/select'
 import { FieldGroup, Field, FieldLabel, FieldSet, FieldLegend } from '@/components/ui/field'
 import { toast } from 'sonner'
-import { CheckCircle2, ArrowLeft, ArrowRight, GraduationCap, Users, DollarSign, Clock } from 'lucide-react'
+import {
+  CheckCircle2,
+  ArrowLeft,
+  ArrowRight,
+  GraduationCap,
+  Users,
+  DollarSign,
+  Clock,
+  Upload,
+  Plus,
+  Trash2,
+} from 'lucide-react'
 import Link from 'next/link'
 
 const subjects = [
@@ -46,23 +57,33 @@ const universities = [
 ]
 
 const specializations = [
-  { value: 'euee', label: 'EUEE Preparation' },
-  { value: 'sat', label: 'SAT Preparation' },
-  { value: 'ielts', label: 'IELTS/TOEFL' },
-  { value: 'none', label: 'General Tutoring' },
+  { value: 'euee', label: 'EUEE Preparation', badge: 'EUEE Expert' },
+  { value: 'sat', label: 'SAT Preparation', badge: 'SAT Specialist' },
+  { value: 'ielts', label: 'IELTS/TOEFL', badge: 'IELTS/TOEFL Specialist' },
+  { value: 'none', label: 'General Tutoring', badge: null },
 ]
 
 const gradeLevels = [
-  { value: '9-10', label: 'Grade 9-10' },
-  { value: '11-12', label: 'Grade 11-12' },
-  { value: 'university', label: 'University' },
+  { value: '1', label: 'Grade 1' },
+  { value: '2', label: 'Grade 2' },
+  { value: '3', label: 'Grade 3' },
+  { value: '4', label: 'Grade 4' },
+  { value: '5', label: 'Grade 5' },
+  { value: '6', label: 'Grade 6' },
+  { value: '7', label: 'Grade 7' },
+  { value: '8', label: 'Grade 8' },
+  { value: '9', label: 'Grade 9' },
+  { value: '10', label: 'Grade 10' },
+  { value: '11', label: 'Grade 11' },
+  { value: '12', label: 'Grade 12' },
+  { value: 'freshman', label: 'Freshman' },
 ]
 
 const benefits = [
   {
     icon: DollarSign,
     title: 'Competitive Earnings',
-    description: 'Set your own rates and earn 250-500 ETB per hour',
+    description: 'Set your own rates and earn 250–500 ETB per hour',
   },
   {
     icon: Clock,
@@ -81,11 +102,84 @@ const benefits = [
   },
 ]
 
+interface BadgeApplication {
+  type: string
+  file: File | null
+  fileName: string
+}
+
+interface FormData {
+  fullName: string
+  phone: string
+  email: string
+  university: string
+  otherUniversity: string
+  yearOfStudy: string
+  major: string
+  selectedSubjects: string[]
+  gradeLevels: string[]
+  specialization: string
+  hourlyRate: string
+  availability: string
+  bio: string
+  transcriptFile: File | null
+  transcriptFileName: string
+  eueeFile: File | null
+  eueeFileName: string
+  applyForBadge: boolean
+  badgeApplications: BadgeApplication[]
+}
+
+function FileUploadField({
+  label,
+  hint,
+  fileName,
+  onFileChange,
+  required,
+}: {
+  label: string
+  hint?: string
+  fileName: string
+  onFileChange: (file: File | null, name: string) => void
+  required?: boolean
+}) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  return (
+    <Field>
+      <FieldLabel>
+        {label}
+        {required && <span className="ml-1 text-destructive">*</span>}
+      </FieldLabel>
+      {hint && <p className="mb-1 text-xs text-muted-foreground">{hint}</p>}
+      <div
+        className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-border bg-muted/30 p-4 transition-colors hover:border-primary/50"
+        onClick={() => inputRef.current?.click()}
+      >
+        <Upload className="h-5 w-5 shrink-0 text-muted-foreground" />
+        <span className="text-sm text-muted-foreground">
+          {fileName || 'Click to upload (PDF or image)'}
+        </span>
+        {fileName && <CheckCircle2 className="ml-auto h-4 w-4 text-primary" />}
+      </div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".pdf,.jpg,.jpeg,.png"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0] ?? null
+          onFileChange(file, file?.name ?? '')
+        }}
+      />
+    </Field>
+  )
+}
+
 export default function BecomeTutorPage() {
   const router = useRouter()
-  const [step, setStep] = useState(0) // 0 is info page, 1-4 are form steps
+  const [step, setStep] = useState(0) // 0 = info, 1–5 = form steps
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: '',
     phone: '',
     email: '',
@@ -93,14 +187,18 @@ export default function BecomeTutorPage() {
     otherUniversity: '',
     yearOfStudy: '',
     major: '',
-    selectedSubjects: [] as string[],
-    gradeLevels: [] as string[],
+    selectedSubjects: [],
+    gradeLevels: [],
     specialization: '',
     hourlyRate: '',
     availability: '',
     bio: '',
-    experience: '',
-    agreeTerms: false,
+    transcriptFile: null,
+    transcriptFileName: '',
+    eueeFile: null,
+    eueeFileName: '',
+    applyForBadge: false,
+    badgeApplications: [],
   })
 
   const handleSubjectToggle = (subject: string) => {
@@ -112,125 +210,122 @@ export default function BecomeTutorPage() {
     }))
   }
 
-  const handleGradeLevelToggle = (level: string) => {
+  const handleGradeToggle = (grade: string) => {
     setFormData(prev => ({
       ...prev,
-      gradeLevels: prev.gradeLevels.includes(level)
-        ? prev.gradeLevels.filter(l => l !== level)
-        : [...prev.gradeLevels, level],
+      gradeLevels: prev.gradeLevels.includes(grade)
+        ? prev.gradeLevels.filter(g => g !== grade)
+        : [...prev.gradeLevels, grade],
+    }))
+  }
+
+  const addBadgeApplication = () => {
+    setFormData(prev => ({
+      ...prev,
+      badgeApplications: [
+        ...prev.badgeApplications,
+        { type: '', file: null, fileName: '' },
+      ],
+    }))
+  }
+
+  const removeBadgeApplication = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      badgeApplications: prev.badgeApplications.filter((_, i) => i !== index),
+    }))
+  }
+
+  const updateBadgeApplication = (index: number, updates: Partial<BadgeApplication>) => {
+    setFormData(prev => ({
+      ...prev,
+      badgeApplications: prev.badgeApplications.map((b, i) =>
+        i === index ? { ...b, ...updates } : b
+      ),
     }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!formData.agreeTerms) {
-      toast.error('Please agree to the terms and conditions')
+    if (!formData.transcriptFile) {
+      toast.error('Please upload your Grade 12 transcript.')
       return
     }
-    
+    if (!formData.eueeFile) {
+      toast.error('Please upload your EUEE result.')
+      return
+    }
     setIsSubmitting(true)
-
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500))
-
-    toast.success('Application submitted successfully!', {
-      description: 'We will review your application and get back to you within 48 hours.',
+    toast.success('Application submitted!', {
+      description: 'We will review your application within 1–2 business days.',
     })
-
     setIsSubmitting(false)
     router.push('/become-tutor/success')
   }
 
+  const totalSteps = 5
   const canProceedStep1 = formData.fullName && formData.phone && formData.email
-  const canProceedStep2 = formData.university && formData.yearOfStudy && formData.major
-  const canProceedStep3 = formData.selectedSubjects.length > 0 && formData.gradeLevels.length > 0
-  const canSubmit = formData.hourlyRate && formData.bio && formData.agreeTerms
+  const canProceedStep2 =
+    formData.university &&
+    formData.yearOfStudy &&
+    formData.major &&
+    (formData.university !== 'Other' || formData.otherUniversity)
+  const canProceedStep3 =
+    formData.selectedSubjects.length > 0 && formData.gradeLevels.length > 0 && formData.specialization
+  const canProceedStep4 = formData.transcriptFile && formData.eueeFile
+  const canSubmit = formData.hourlyRate && formData.availability && formData.bio
 
+  // Info / landing step
   if (step === 0) {
     return (
       <div className="flex min-h-screen flex-col">
         <Header />
-        <main className="flex-1">
-          {/* Hero Section */}
-          <section className="bg-gradient-to-b from-primary/5 to-background py-16 sm:py-24">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <div className="mx-auto max-w-3xl text-center">
-                <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-                  Share your knowledge,{' '}
-                  <span className="text-primary">earn while you learn</span>
-                </h1>
-                <p className="mt-6 text-pretty text-lg text-muted-foreground">
-                  Join አጋዤ as a tutor and help students across Ethiopia achieve their academic goals 
-                  while earning extra income on your own schedule.
-                </p>
-                <div className="mt-8">
-                  <Button size="lg" onClick={() => setStep(1)} className="text-base">
-                    Start Your Application
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+        <main className="flex-1 py-12">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <Badge className="mb-4">Now Accepting Applications</Badge>
+              <h1 className="text-4xl font-bold tracking-tight">Become a Tutor</h1>
+              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                Share your knowledge, earn money, and help students across Ethiopia achieve their
+                academic goals.
+              </p>
             </div>
-          </section>
 
-          {/* Benefits Section */}
-          <section className="py-16">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
-                Why tutor with አጋዤ?
-              </h2>
-              <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {benefits.map((benefit) => (
-                  <Card key={benefit.title} className="text-center">
-                    <CardContent className="pt-6">
-                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                        <benefit.icon className="h-6 w-6 text-primary" />
-                      </div>
-                      <h3 className="mt-4 font-semibold">{benefit.title}</h3>
-                      <p className="mt-2 text-sm text-muted-foreground">{benefit.description}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+            <div className="grid gap-6 sm:grid-cols-2 mb-12">
+              {benefits.map((b) => (
+                <Card key={b.title}>
+                  <CardContent className="pt-6 flex gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                      <b.icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">{b.title}</p>
+                      <p className="text-sm text-muted-foreground">{b.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-          </section>
 
-          {/* Requirements Section */}
-          <section className="bg-muted/50 py-16">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <div className="mx-auto max-w-2xl">
-                <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
-                  Requirements
-                </h2>
-                <div className="mt-8 rounded-lg bg-card p-6">
-                  <ul className="space-y-4">
-                    <li className="flex items-start gap-3">
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                      <span>Currently enrolled in or graduated from an accredited Ethiopian university</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                      <span>Strong academic performance in subjects you wish to teach</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                      <span>Patient, reliable, and passionate about education</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                      <span>Available for at least 4 hours per week</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="mt-8 text-center">
-                  <Button size="lg" onClick={() => setStep(1)}>
-                    Apply Now
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+            <div className="rounded-xl border border-border bg-muted/30 p-6 mb-8">
+              <h2 className="font-semibold mb-2">Requirements</h2>
+              <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
+                <li>Currently enrolled in university (any year)</li>
+                <li>Grade 12 transcript (mandatory upload)</li>
+                <li>EUEE result document (mandatory upload)</li>
+                <li>Strong academic performance in chosen subjects</li>
+                <li>Commitment to at least 2 sessions per week</li>
+              </ul>
             </div>
-          </section>
+
+            <div className="text-center">
+              <Button size="lg" onClick={() => setStep(1)}>
+                Start Application
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </main>
         <Footer />
       </div>
@@ -242,41 +337,31 @@ export default function BecomeTutorPage() {
       <Header />
       <main className="flex-1 py-8">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold tracking-tight">Tutor Application</h1>
-            <p className="mt-2 text-muted-foreground">
-              Complete your application to become a verified tutor.
-            </p>
-          </div>
-
           {/* Progress Indicator */}
           <div className="mb-8">
             <div className="flex items-center justify-between">
-              {[1, 2, 3, 4].map((s) => (
+              {Array.from({ length: totalSteps }, (_, i) => i + 1).map((s) => (
                 <div key={s} className="flex items-center">
                   <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-medium ${
+                    className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium ${
                       step >= s
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted text-muted-foreground'
                     }`}
                   >
-                    {step > s ? <CheckCircle2 className="h-5 w-5" /> : s}
+                    {step > s ? <CheckCircle2 className="h-4 w-4" /> : s}
                   </div>
-                  {s < 4 && (
-                    <div
-                      className={`h-1 w-12 sm:w-16 ${
-                        step > s ? 'bg-primary' : 'bg-muted'
-                      }`}
-                    />
+                  {s < totalSteps && (
+                    <div className={`h-1 w-8 sm:w-12 ${step > s ? 'bg-primary' : 'bg-muted'}`} />
                   )}
                 </div>
               ))}
             </div>
             <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-              <span>Contact</span>
-              <span>Education</span>
-              <span>Subjects</span>
+              <span>Personal</span>
+              <span>Academic</span>
+              <span>Teaching</span>
+              <span>Documents</span>
               <span>Profile</span>
             </div>
           </div>
@@ -284,20 +369,23 @@ export default function BecomeTutorPage() {
           <Card>
             <CardHeader>
               <CardTitle>
-                {step === 1 && 'Contact Information'}
-                {step === 2 && 'Education Details'}
-                {step === 3 && 'Teaching Subjects'}
-                {step === 4 && 'Your Profile'}
+                {step === 1 && 'Personal Information'}
+                {step === 2 && 'Academic Background'}
+                {step === 3 && 'Teaching Preferences'}
+                {step === 4 && 'Required Documents'}
+                {step === 5 && 'Profile & Rates'}
               </CardTitle>
               <CardDescription>
-                {step === 1 && 'How can we reach you?'}
-                {step === 2 && 'Tell us about your academic background'}
-                {step === 3 && 'What subjects can you teach?'}
-                {step === 4 && 'Tell students about yourself'}
+                {step === 1 && 'Basic contact information'}
+                {step === 2 && 'Tell us about your university and studies'}
+                {step === 3 && 'Subjects, grades, and specialization'}
+                {step === 4 && 'Upload your transcript and EUEE result (required)'}
+                {step === 5 && 'Set your rate and write your profile bio'}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>
+                {/* Step 1: Personal Info */}
                 {step === 1 && (
                   <FieldGroup>
                     <Field>
@@ -335,6 +423,7 @@ export default function BecomeTutorPage() {
                   </FieldGroup>
                 )}
 
+                {/* Step 2: Academic Background */}
                 {step === 2 && (
                   <FieldGroup>
                     <Field>
@@ -348,14 +437,14 @@ export default function BecomeTutorPage() {
                         </SelectTrigger>
                         <SelectContent>
                           {universities.map((uni) => (
-                            <SelectItem key={uni} value={uni.toLowerCase().replace(/\s+/g, '-')}>
+                            <SelectItem key={uni} value={uni}>
                               {uni}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                     </Field>
-                    {formData.university === 'other' && (
+                    {formData.university === 'Other' && (
                       <Field>
                         <FieldLabel htmlFor="otherUniversity">University Name</FieldLabel>
                         <Input
@@ -363,6 +452,7 @@ export default function BecomeTutorPage() {
                           placeholder="Enter your university name"
                           value={formData.otherUniversity}
                           onChange={(e) => setFormData(prev => ({ ...prev, otherUniversity: e.target.value }))}
+                          required
                         />
                       </Field>
                     )}
@@ -376,11 +466,9 @@ export default function BecomeTutorPage() {
                           <SelectValue placeholder="Select year" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="2">2nd Year</SelectItem>
-                          <SelectItem value="3">3rd Year</SelectItem>
-                          <SelectItem value="4">4th Year</SelectItem>
-                          <SelectItem value="5">5th Year</SelectItem>
-                          <SelectItem value="graduate">Graduate</SelectItem>
+                          {['1st Year', '2nd Year', '3rd Year', '4th Year', '5th Year', 'Graduate'].map(y => (
+                            <SelectItem key={y} value={y}>{y}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </Field>
@@ -397,6 +485,7 @@ export default function BecomeTutorPage() {
                   </FieldGroup>
                 )}
 
+                {/* Step 3: Teaching Preferences */}
                 {step === 3 && (
                   <FieldGroup>
                     <FieldSet>
@@ -417,26 +506,26 @@ export default function BecomeTutorPage() {
                     <FieldSet>
                       <FieldLegend>Grade Levels You Can Teach</FieldLegend>
                       <div className="mt-2 flex flex-wrap gap-2">
-                        {gradeLevels.map((level) => (
+                        {gradeLevels.map((grade) => (
                           <Badge
-                            key={level.value}
-                            variant={formData.gradeLevels.includes(level.value) ? 'default' : 'outline'}
+                            key={grade.value}
+                            variant={formData.gradeLevels.includes(grade.value) ? 'default' : 'outline'}
                             className="cursor-pointer transition-colors"
-                            onClick={() => handleGradeLevelToggle(level.value)}
+                            onClick={() => handleGradeToggle(grade.value)}
                           >
-                            {level.label}
+                            {grade.label}
                           </Badge>
                         ))}
                       </div>
                     </FieldSet>
                     <Field>
-                      <FieldLabel htmlFor="specialization">Specialization</FieldLabel>
+                      <FieldLabel htmlFor="specialization">Primary Specialization</FieldLabel>
                       <Select
                         value={formData.specialization}
                         onValueChange={(value) => setFormData(prev => ({ ...prev, specialization: value }))}
                       >
                         <SelectTrigger id="specialization">
-                          <SelectValue placeholder="Select specialization (optional)" />
+                          <SelectValue placeholder="Select specialization" />
                         </SelectTrigger>
                         <SelectContent>
                           {specializations.map((spec) => (
@@ -450,7 +539,138 @@ export default function BecomeTutorPage() {
                   </FieldGroup>
                 )}
 
+                {/* Step 4: Required Documents + Optional Badges */}
                 {step === 4 && (
+                  <FieldGroup>
+                    <div className="rounded-lg bg-muted/50 border border-border p-3 text-sm text-muted-foreground">
+                      These documents are required for all applicants. They are reviewed by admin and kept confidential.
+                    </div>
+
+                    <FileUploadField
+                      label="Grade 12 Transcript"
+                      hint="Upload your official Grade 12 transcript (PDF or image)"
+                      fileName={formData.transcriptFileName}
+                      onFileChange={(file, name) =>
+                        setFormData(prev => ({ ...prev, transcriptFile: file, transcriptFileName: name }))
+                      }
+                      required
+                    />
+
+                    <FileUploadField
+                      label="EUEE Result"
+                      hint="Upload your EUEE result certificate or score sheet (PDF or image)"
+                      fileName={formData.eueeFileName}
+                      onFileChange={(file, name) =>
+                        setFormData(prev => ({ ...prev, eueeFile: file, eueeFileName: name }))
+                      }
+                      required
+                    />
+
+                    {/* Optional Badge Applications */}
+                    <div className="mt-2">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id="applyForBadge"
+                          checked={formData.applyForBadge}
+                          onCheckedChange={(checked) => {
+                            setFormData(prev => ({
+                              ...prev,
+                              applyForBadge: !!checked,
+                              badgeApplications:
+                                checked && prev.badgeApplications.length === 0
+                                  ? [{ type: '', file: null, fileName: '' }]
+                                  : prev.badgeApplications,
+                            }))
+                          }}
+                        />
+                        <label
+                          htmlFor="applyForBadge"
+                          className="text-sm font-medium cursor-pointer"
+                        >
+                          Apply for an optional badge (e.g., SAT Specialist, EUEE Expert)
+                        </label>
+                      </div>
+
+                      {formData.applyForBadge && (
+                        <div className="mt-4 flex flex-col gap-4">
+                          <p className="text-xs text-muted-foreground">
+                            Upload supporting documents for each badge you are applying for.
+                            Admin will review and approve if criteria are met.
+                          </p>
+                          {formData.badgeApplications.map((badge, index) => (
+                            <div
+                              key={index}
+                              className="rounded-lg border border-border p-4 flex flex-col gap-3"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm font-medium">Badge #{index + 1}</span>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => removeBadgeApplication(index)}
+                                >
+                                  <Trash2 className="h-4 w-4 text-destructive" />
+                                </Button>
+                              </div>
+                              <Field>
+                                <FieldLabel>Badge Type</FieldLabel>
+                                <Select
+                                  value={badge.type}
+                                  onValueChange={(value) =>
+                                    updateBadgeApplication(index, { type: value })
+                                  }
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select badge type" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {specializations
+                                      .filter(s => s.badge)
+                                      .map((spec) => (
+                                        <SelectItem key={spec.value} value={spec.value}>
+                                          {spec.badge}
+                                        </SelectItem>
+                                      ))}
+                                    <SelectItem value="olympiad">Olympiad Winner</SelectItem>
+                                    <SelectItem value="top_scorer">National Top Scorer</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </Field>
+                              <FileUploadField
+                                label="Supporting Document"
+                                hint={
+                                  badge.type === 'sat'
+                                    ? 'SAT score report (score ≥ 1500)'
+                                    : badge.type === 'euee'
+                                    ? 'EUEE certificate with average ≥ 90%'
+                                    : 'Certificate or official score document'
+                                }
+                                fileName={badge.fileName}
+                                onFileChange={(file, name) =>
+                                  updateBadgeApplication(index, { file, fileName: name })
+                                }
+                              />
+                            </div>
+                          ))}
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="gap-2"
+                            onClick={addBadgeApplication}
+                          >
+                            <Plus className="h-4 w-4" />
+                            Add Another Badge
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </FieldGroup>
+                )}
+
+                {/* Step 5: Profile & Rates */}
+                {step === 5 && (
                   <FieldGroup>
                     <Field>
                       <FieldLabel htmlFor="hourlyRate">Hourly Rate (ETB)</FieldLabel>
@@ -460,82 +680,56 @@ export default function BecomeTutorPage() {
                         placeholder="e.g., 300"
                         value={formData.hourlyRate}
                         onChange={(e) => setFormData(prev => ({ ...prev, hourlyRate: e.target.value }))}
+                        min={0}
                         required
                       />
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Recommended: 250-400 ETB per hour
-                      </p>
                     </Field>
                     <Field>
                       <FieldLabel htmlFor="availability">Availability</FieldLabel>
                       <Input
                         id="availability"
-                        placeholder="e.g., Weekdays 4PM-8PM, Weekends flexible"
+                        placeholder="e.g., Weekdays 4PM–8PM, Weekends flexible"
                         value={formData.availability}
                         onChange={(e) => setFormData(prev => ({ ...prev, availability: e.target.value }))}
+                        required
                       />
                     </Field>
                     <Field>
-                      <FieldLabel htmlFor="bio">About You</FieldLabel>
+                      <FieldLabel htmlFor="bio">Bio / About You</FieldLabel>
                       <Textarea
                         id="bio"
-                        placeholder="Tell students about yourself, your teaching style, and why you are a great tutor..."
-                        rows={4}
+                        placeholder="Describe your teaching experience, approach, and why parents should choose you..."
+                        rows={5}
                         value={formData.bio}
                         onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
                         required
                       />
                     </Field>
-                    <Field>
-                      <FieldLabel htmlFor="experience">Teaching Experience (Optional)</FieldLabel>
-                      <Textarea
-                        id="experience"
-                        placeholder="Describe any previous tutoring or teaching experience..."
-                        rows={3}
-                        value={formData.experience}
-                        onChange={(e) => setFormData(prev => ({ ...prev, experience: e.target.value }))}
-                      />
-                    </Field>
-                    <div className="flex items-start gap-3">
-                      <Checkbox
-                        id="terms"
-                        checked={formData.agreeTerms}
-                        onCheckedChange={(checked) => 
-                          setFormData(prev => ({ ...prev, agreeTerms: checked === true }))
-                        }
-                      />
-                      <label htmlFor="terms" className="text-sm text-muted-foreground cursor-pointer">
-                        I agree to the{' '}
-                        <Link href="/terms" className="text-primary hover:underline">
-                          Terms of Service
-                        </Link>{' '}
-                        and{' '}
-                        <Link href="/privacy" className="text-primary hover:underline">
-                          Privacy Policy
-                        </Link>
-                      </label>
-                    </div>
                   </FieldGroup>
                 )}
 
                 <div className="mt-6 flex justify-between">
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => setStep(step - 1)}
-                  >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back
-                  </Button>
-                  
-                  {step < 4 ? (
+                  {step > 1 ? (
+                    <Button type="button" variant="outline" onClick={() => setStep(step - 1)}>
+                      <ArrowLeft className="mr-2 h-4 w-4" />
+                      Back
+                    </Button>
+                  ) : (
+                    <Button type="button" variant="outline" onClick={() => setStep(0)}>
+                      <ArrowLeft className="mr-2 h-4 w-4" />
+                      Back
+                    </Button>
+                  )}
+
+                  {step < totalSteps ? (
                     <Button
                       type="button"
                       onClick={() => setStep(step + 1)}
                       disabled={
                         (step === 1 && !canProceedStep1) ||
                         (step === 2 && !canProceedStep2) ||
-                        (step === 3 && !canProceedStep3)
+                        (step === 3 && !canProceedStep3) ||
+                        (step === 4 && !canProceedStep4)
                       }
                     >
                       Next
