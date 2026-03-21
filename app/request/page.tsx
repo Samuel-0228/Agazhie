@@ -168,10 +168,37 @@ function RequestFormContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Simulate API call / logging
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    setIsSubmitting(false)
-    setSubmitted(true)
+    try {
+      const res = await fetch('/api/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          parentName: formData.parentName,
+          email: formData.email,
+          phone: formData.phone,
+          studentName: formData.studentName,
+          gradeLevel: formData.gradeLevel,
+          subjects: formData.selectedSubjects,
+          sessionType: formData.sessionType,
+          frequency: formData.frequency,
+          location: formData.location,
+          notes: formData.additionalNotes,
+          preferredTutorId: tutorId,
+        }),
+      })
+      // Accept both 201 (DB insert) and non-200 gracefully — we still show the
+      // Telegram draft so the user can always complete their request.
+      if (!res.ok && res.status !== 201) {
+        const data = await res.json().catch(() => ({}))
+        console.warn('[Request form] API error (non-fatal):', data.error)
+      }
+    } catch (err) {
+      // Network error — log only; we still show Telegram option below
+      console.warn('[Request form] Fetch error (non-fatal):', err)
+    } finally {
+      setIsSubmitting(false)
+      setSubmitted(true)
+    }
   }
 
   const telegramMessage = buildTelegramMessage({ ...formData, preferredTutorId: tutorId })

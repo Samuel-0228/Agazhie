@@ -256,12 +256,47 @@ export default function BecomeTutorPage() {
       return
     }
     setIsSubmitting(true)
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    toast.success('Application submitted!', {
-      description: 'We will review your application within 1–2 business days.',
-    })
-    setIsSubmitting(false)
-    router.push('/become-tutor/success')
+    try {
+      const res = await fetch('/api/applications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          university:
+            formData.university === 'Other' ? formData.otherUniversity : formData.university,
+          yearOfStudy: formData.yearOfStudy,
+          major: formData.major,
+          subjects: formData.selectedSubjects,
+          gradeLevels: formData.gradeLevels,
+          specialization: formData.specialization,
+          hourlyRate: parseInt(formData.hourlyRate, 10) || 0,
+          bio: formData.bio,
+          availability: formData.availability,
+        }),
+      })
+
+      const data = await res.json().catch(() => ({}))
+
+      if (!res.ok) {
+        if (res.status === 409) {
+          toast.error('An application with this email already exists.')
+        } else {
+          toast.error(data.error || 'Failed to submit application. Please try again.')
+        }
+        return
+      }
+
+      toast.success('Application submitted!', {
+        description: 'We will review your application within 1–2 business days.',
+      })
+      router.push('/become-tutor/success')
+    } catch {
+      toast.error('An unexpected error occurred. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const totalSteps = 5

@@ -139,9 +139,32 @@ export default function ApplicationsPage() {
     app.subjects.some(s => s.toLowerCase().includes(searchQuery.toLowerCase()))
   )
 
-  const handleAppStatus = (id: string, status: AppStatus) => {
+  const handleAppStatus = async (id: string, status: AppStatus) => {
+    // Optimistically update the UI
     setApplications(prev => prev.map(a => a.id === id ? { ...a, status } : a))
     if (selectedApp?.id === id) setSelectedApp(prev => prev ? { ...prev, status } : prev)
+
+    // Only approve/reject actions have backend counterparts
+    if (status === 'approved' || status === 'rejected') {
+      try {
+        const res = await fetch(`/api/admin/applications/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: status === 'approved' ? 'approve' : 'reject' }),
+        })
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}))
+          toast.error(data.error || `Failed to ${status} application.`)
+          // Revert optimistic update
+          setApplications(prev => prev.map(a => a.id === id ? { ...a, status: 'pending' } : a))
+          return
+        }
+      } catch {
+        toast.error('Network error. Please try again.')
+        setApplications(prev => prev.map(a => a.id === id ? { ...a, status: 'pending' } : a))
+        return
+      }
+    }
     toast.success(`Application ${status}.`)
   }
 
