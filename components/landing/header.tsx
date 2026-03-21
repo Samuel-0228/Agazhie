@@ -2,8 +2,27 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { GraduationCap, Menu, X } from 'lucide-react'
+import {
+  GraduationCap,
+  Menu,
+  X,
+  ChevronDown,
+  BookOpen,
+  Briefcase,
+  HelpCircle,
+  MessageCircle,
+  FileText,
+} from 'lucide-react'
 import { useState } from 'react'
+
+const navLinks = [
+  { href: '/tutors', label: 'Find Tutors' },
+  { href: '/jobs', label: 'Tutor Jobs' },
+  { href: '/assignments', label: 'Assignments' },
+  { href: '/questions', label: 'Q&A' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/become-tutor', label: 'Become a Tutor' },
+]
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -18,24 +37,42 @@ export function Header() {
           <span className="text-xl font-bold tracking-tight">አጋዤ</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
-          <Link 
-            href="/tutors" 
+        <nav className="hidden items-center gap-5 md:flex">
+          <Link
+            href="/tutors"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Find Tutors
           </Link>
-          <Link 
-            href="/become-tutor" 
+          <Link
+            href="/jobs"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Tutor Jobs
+          </Link>
+          <Link
+            href="/assignments"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Assignments
+          </Link>
+          <Link
+            href="/questions"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Q&amp;A
+          </Link>
+          <Link
+            href="/blog"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Blog
+          </Link>
+          <Link
+            href="/become-tutor"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Become a Tutor
-          </Link>
-          <Link 
-            href="/how-it-works" 
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            How It Works
           </Link>
         </nav>
 
@@ -59,25 +96,17 @@ export function Header() {
 
       {mobileMenuOpen && (
         <div className="border-t border-border md:hidden">
-          <nav className="flex flex-col gap-2 p-4">
-            <Link 
-              href="/tutors" 
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Find Tutors
-            </Link>
-            <Link 
-              href="/become-tutor" 
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Become a Tutor
-            </Link>
-            <Link 
-              href="/how-it-works" 
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            >
-              How It Works
-            </Link>
+          <nav className="flex flex-col gap-1 p-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
             <div className="mt-2 flex flex-col gap-2 border-t border-border pt-4">
               <Button variant="outline" asChild className="w-full">
                 <Link href="/auth/login">Log in</Link>

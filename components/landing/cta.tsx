@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, BookOpen, HelpCircle } from 'lucide-react'
 
 export function CTA() {
   return (
@@ -11,23 +11,37 @@ export function CTA() {
             Ready to help your child succeed?
           </h2>
           <p className="mt-4 text-pretty text-lg text-primary-foreground/80">
-            Join hundreds of families who have found the perfect tutor through አጋዤ. 
-            Start your search today.
+            Join hundreds of families who found the perfect tutor through አጋዤ.
+            Pay safely via Telebirr — money held in escrow until you are satisfied.
           </p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
             <Button size="lg" variant="secondary" asChild className="text-base">
               <Link href="/tutors">
                 Browse Tutors
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              asChild 
+            <Button
+              size="lg"
+              variant="outline"
+              asChild
               className="border-primary-foreground/20 bg-transparent text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
-              <Link href="/become-tutor">Become a Tutor</Link>
+              <Link href="/assignments">
+                <BookOpen className="mr-2 h-4 w-4" />
+                Post an Assignment
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              asChild
+              className="border-primary-foreground/20 bg-transparent text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+            >
+              <Link href="/questions">
+                <HelpCircle className="mr-2 h-4 w-4" />
+                Ask a Question Free
+              </Link>
             </Button>
           </div>
         </div>
