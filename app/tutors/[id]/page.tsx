@@ -49,6 +49,8 @@ interface TutorProfile {
   hourlyRate: number
   location: string
   isVerified: boolean
+  isGold?: boolean
+  completedSessions?: number
   specialization?: string
   bio: string
   experience: string
@@ -74,6 +76,8 @@ const tutorsData: Record<string, TutorProfile> = {
     hourlyRate: 350,
     location: 'Addis Ababa',
     isVerified: true,
+    isGold: true,
+    completedSessions: 142,
     specialization: 'EUEE Expert',
     bio: 'I am a final year physics student at Addis Ababa University with a passion for teaching. Over the past 3 years, I have helped more than 50 students achieve their academic goals, with many scoring above 90% in their EUEE physics exams.',
     experience: '3 years of tutoring experience',
@@ -198,10 +202,18 @@ export default async function TutorProfilePage({
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <h1 className="text-2xl font-bold">{tutor.name}</h1>
                         {tutor.isVerified && (
-                          <CheckCircle2 className="h-5 w-5 text-primary" />
+                          <Badge variant="outline" className="gap-1 border-green-300 text-green-700 dark:border-green-700 dark:text-green-400">
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            Verified Tutor
+                          </Badge>
+                        )}
+                        {tutor.isGold && (
+                          <Badge className="gap-1 bg-yellow-500 text-white hover:bg-yellow-500">
+                            ★ Gold Tutor
+                          </Badge>
                         )}
                       </div>
                       <div className="mt-1 flex items-center gap-2 text-muted-foreground">
@@ -239,6 +251,12 @@ export default async function TutorProfilePage({
                           <Clock className="h-4 w-4" />
                           <span>{tutor.experience}</span>
                         </div>
+                        {tutor.completedSessions && (
+                          <div className="flex items-center gap-1 text-muted-foreground">
+                            <BookOpen className="h-4 w-4" />
+                            <span>{tutor.completedSessions} sessions completed</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -372,6 +390,18 @@ export default async function TutorProfilePage({
                     <Button size="lg" className="w-full" asChild>
                       <Link href={`/request?tutor=${tutor.id}`}>
                         Request This Tutor
+                      </Link>
+                    </Button>
+                    <Button variant="outline" size="lg" className="w-full" asChild>
+                      <Link href={`/messages`}>
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        Send Message
+                      </Link>
+                    </Button>
+                    <Button variant="outline" size="lg" className="w-full" asChild>
+                      <Link href={`/sessions`}>
+                        <BookOpen className="mr-2 h-4 w-4" />
+                        Book Live Session
                       </Link>
                     </Button>
                     <p className="text-center text-xs text-muted-foreground">

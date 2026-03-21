@@ -14,6 +14,8 @@ import {
   Settings,
   LogOut,
   ClipboardList,
+  AlertTriangle,
+  BarChart2,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -38,6 +40,16 @@ const navItems = [
     title: 'Parent Requests',
     href: '/admin/requests',
     icon: MessageSquare,
+  },
+  {
+    title: 'Disputes',
+    href: '/admin/disputes',
+    icon: AlertTriangle,
+  },
+  {
+    title: 'Metrics',
+    href: '/admin/metrics',
+    icon: BarChart2,
   },
   {
     title: 'Users',
