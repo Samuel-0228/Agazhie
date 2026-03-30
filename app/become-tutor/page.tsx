@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/select'
 import { FieldGroup, Field, FieldLabel, FieldSet, FieldLegend } from '@/components/ui/field'
 import { toast } from 'sonner'
-import { CheckCircle2, ArrowLeft, ArrowRight, GraduationCap, Users, DollarSign, Clock } from 'lucide-react'
+import { CheckCircle2, ArrowLeft, ArrowRight, GraduationCap, Users, DollarSign, Clock, Upload, Plus, X, Award } from 'lucide-react'
 import Link from 'next/link'
 
 const subjects = [
@@ -53,9 +53,26 @@ const specializations = [
 ]
 
 const gradeLevels = [
-  { value: '9-10', label: 'Grade 9-10' },
-  { value: '11-12', label: 'Grade 11-12' },
-  { value: 'university', label: 'University' },
+  { value: '1', label: 'Grade 1' },
+  { value: '2', label: 'Grade 2' },
+  { value: '3', label: 'Grade 3' },
+  { value: '4', label: 'Grade 4' },
+  { value: '5', label: 'Grade 5' },
+  { value: '6', label: 'Grade 6' },
+  { value: '7', label: 'Grade 7' },
+  { value: '8', label: 'Grade 8' },
+  { value: '9', label: 'Grade 9' },
+  { value: '10', label: 'Grade 10' },
+  { value: '11', label: 'Grade 11' },
+  { value: '12', label: 'Grade 12' },
+  { value: 'freshman', label: 'Freshman' },
+]
+
+const badgeOptions = [
+  { value: 'euee-specialist', label: 'EUEE Specialist', description: 'Average score ≥ 90% in EUEE' },
+  { value: 'sat-specialist', label: 'SAT Specialist', description: 'SAT score ≥ 1500' },
+  { value: 'ielts-specialist', label: 'IELTS/TOEFL Specialist', description: 'IELTS ≥ 7.5 or equivalent' },
+  { value: 'olympiad', label: 'Olympiad Winner', description: 'National/International Olympiad participant or winner' },
 ]
 
 const benefits = [
@@ -81,6 +98,11 @@ const benefits = [
   },
 ]
 
+interface BadgeApplication {
+  badgeType: string
+  file: File | null
+}
+
 export default function BecomeTutorPage() {
   const router = useRouter()
   const [step, setStep] = useState(0) // 0 is info page, 1-4 are form steps
@@ -102,6 +124,10 @@ export default function BecomeTutorPage() {
     experience: '',
     agreeTerms: false,
   })
+  const [grade12Transcript, setGrade12Transcript] = useState<File | null>(null)
+  const [eueeResult, setEueeResult] = useState<File | null>(null)
+  const [applyingForBadges, setApplyingForBadges] = useState(false)
+  const [badgeApplications, setBadgeApplications] = useState<BadgeApplication[]>([])
 
   const handleSubjectToggle = (subject: string) => {
     setFormData(prev => ({
@@ -127,6 +153,14 @@ export default function BecomeTutorPage() {
       toast.error('Please agree to the terms and conditions')
       return
     }
+    if (!grade12Transcript) {
+      toast.error('Grade 12 transcript is required')
+      return
+    }
+    if (!eueeResult) {
+      toast.error('EUEE result document is required')
+      return
+    }
     
     setIsSubmitting(true)
 
@@ -141,10 +175,24 @@ export default function BecomeTutorPage() {
     router.push('/become-tutor/success')
   }
 
+  const addBadgeApplication = () => {
+    setBadgeApplications(prev => [...prev, { badgeType: '', file: null }])
+  }
+
+  const removeBadgeApplication = (index: number) => {
+    setBadgeApplications(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const updateBadgeApplication = (index: number, field: keyof BadgeApplication, value: string | File | null) => {
+    setBadgeApplications(prev =>
+      prev.map((app, i) => i === index ? { ...app, [field]: value } : app)
+    )
+  }
+
   const canProceedStep1 = formData.fullName && formData.phone && formData.email
   const canProceedStep2 = formData.university && formData.yearOfStudy && formData.major
   const canProceedStep3 = formData.selectedSubjects.length > 0 && formData.gradeLevels.length > 0
-  const canSubmit = formData.hourlyRate && formData.bio && formData.agreeTerms
+  const canSubmit = formData.hourlyRate && formData.bio && formData.agreeTerms && !!grade12Transcript && !!eueeResult
 
   if (step === 0) {
     return (
@@ -496,6 +544,169 @@ export default function BecomeTutorPage() {
                         onChange={(e) => setFormData(prev => ({ ...prev, experience: e.target.value }))}
                       />
                     </Field>
+
+                    {/* Mandatory Document Uploads */}
+                    <div className="rounded-lg border border-border bg-muted/30 p-4">
+                      <h3 className="mb-3 flex items-center gap-2 font-medium">
+                        <Upload className="h-4 w-4 text-primary" />
+                        Required Documents
+                      </h3>
+                      <div className="flex flex-col gap-4">
+                        <Field>
+                          <FieldLabel htmlFor="grade12Transcript">
+                            Grade 12 Transcript <span className="text-destructive">*</span>
+                          </FieldLabel>
+                          <div className="flex items-center gap-3">
+                            <label
+                              htmlFor="grade12Transcript"
+                              className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-border px-4 py-2.5 text-sm text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                            >
+                              <Upload className="h-4 w-4" />
+                              {grade12Transcript ? grade12Transcript.name : 'Choose file (PDF/Image)'}
+                            </label>
+                            <input
+                              id="grade12Transcript"
+                              type="file"
+                              accept=".pdf,.jpg,.jpeg,.png"
+                              className="hidden"
+                              onChange={(e) => setGrade12Transcript(e.target.files?.[0] || null)}
+                            />
+                            {grade12Transcript && (
+                              <button
+                                type="button"
+                                className="text-muted-foreground hover:text-destructive"
+                                onClick={() => setGrade12Transcript(null)}
+                              >
+                                <X className="h-4 w-4" />
+                              </button>
+                            )}
+                          </div>
+                        </Field>
+                        <Field>
+                          <FieldLabel htmlFor="eueeResult">
+                            EUEE Result <span className="text-destructive">*</span>
+                          </FieldLabel>
+                          <div className="flex items-center gap-3">
+                            <label
+                              htmlFor="eueeResult"
+                              className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-border px-4 py-2.5 text-sm text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                            >
+                              <Upload className="h-4 w-4" />
+                              {eueeResult ? eueeResult.name : 'Choose file (PDF/Image)'}
+                            </label>
+                            <input
+                              id="eueeResult"
+                              type="file"
+                              accept=".pdf,.jpg,.jpeg,.png"
+                              className="hidden"
+                              onChange={(e) => setEueeResult(e.target.files?.[0] || null)}
+                            />
+                            {eueeResult && (
+                              <button
+                                type="button"
+                                className="text-muted-foreground hover:text-destructive"
+                                onClick={() => setEueeResult(null)}
+                              >
+                                <X className="h-4 w-4" />
+                              </button>
+                            )}
+                          </div>
+                        </Field>
+                      </div>
+                    </div>
+
+                    {/* Optional Badge Application */}
+                    <div className="rounded-lg border border-border bg-muted/30 p-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="flex items-center gap-2 font-medium">
+                          <Award className="h-4 w-4 text-amber-500" />
+                          Apply for Badges <span className="text-xs font-normal text-muted-foreground">(Optional)</span>
+                        </h3>
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            id="applyingForBadges"
+                            checked={applyingForBadges}
+                            onCheckedChange={(checked) => {
+                              setApplyingForBadges(checked === true)
+                              if (!checked) setBadgeApplications([])
+                            }}
+                          />
+                          <label htmlFor="applyingForBadges" className="text-sm cursor-pointer">
+                            I want to apply for a badge
+                          </label>
+                        </div>
+                      </div>
+                      {applyingForBadges && (
+                        <div className="mt-4 flex flex-col gap-4">
+                          <p className="text-sm text-muted-foreground">
+                            Add one or more badges and upload supporting documents for each. Only admin-approved badges will appear on your profile.
+                          </p>
+                          {badgeApplications.map((app, index) => (
+                            <div key={index} className="rounded-md border border-border bg-background p-3">
+                              <div className="flex items-start justify-between gap-3">
+                                <div className="flex flex-1 flex-col gap-3">
+                                  <div>
+                                    <label className="mb-1 block text-sm font-medium">Badge Type</label>
+                                    <select
+                                      value={app.badgeType}
+                                      onChange={(e) => updateBadgeApplication(index, 'badgeType', e.target.value)}
+                                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                                    >
+                                      <option value="">Select badge type</option>
+                                      {badgeOptions.map((opt) => (
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                      ))}
+                                    </select>
+                                    {app.badgeType && (
+                                      <p className="mt-1 text-xs text-muted-foreground">
+                                        {badgeOptions.find(o => o.value === app.badgeType)?.description}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <div>
+                                    <label className="mb-1 block text-sm font-medium">Supporting Document</label>
+                                    <div className="flex items-center gap-2">
+                                      <label
+                                        htmlFor={`badge-doc-${index}`}
+                                        className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-border px-3 py-2 text-xs text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                                      >
+                                        <Upload className="h-3 w-3" />
+                                        {app.file ? app.file.name : 'Upload proof (PDF/Image)'}
+                                      </label>
+                                      <input
+                                        id={`badge-doc-${index}`}
+                                        type="file"
+                                        accept=".pdf,.jpg,.jpeg,.png"
+                                        className="hidden"
+                                        onChange={(e) => updateBadgeApplication(index, 'file', e.target.files?.[0] || null)}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  className="mt-1 text-muted-foreground hover:text-destructive"
+                                  onClick={() => removeBadgeApplication(index)}
+                                >
+                                  <X className="h-4 w-4" />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="self-start gap-1"
+                            onClick={addBadgeApplication}
+                          >
+                            <Plus className="h-3.5 w-3.5" />
+                            Add Another Badge
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
                     <div className="flex items-start gap-3">
                       <Checkbox
                         id="terms"

@@ -3,7 +3,14 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Star, MapPin, CheckCircle2 } from 'lucide-react'
+import { Star, MapPin, CheckCircle2, Brain, Clock, MessageCircle, Heart } from 'lucide-react'
+
+export interface TutorRatings {
+  intelligence: number
+  punctuality: number
+  communication: number
+  loyalty: number
+}
 
 export interface Tutor {
   id: string
@@ -17,11 +24,30 @@ export interface Tutor {
   location: string
   isVerified: boolean
   specialization?: string
+  badges?: string[]
   bio: string
+  grades?: string[]
+  ratings?: TutorRatings
 }
 
 interface TutorCardProps {
   tutor: Tutor
+}
+
+function RatingBar({ label, value, icon: Icon }: { label: string; value: number; icon: React.ElementType }) {
+  return (
+    <div className="flex items-center gap-2">
+      <Icon className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+      <span className="w-24 text-xs text-muted-foreground">{label}</span>
+      <div className="flex-1 rounded-full bg-muted h-1.5">
+        <div
+          className="h-1.5 rounded-full bg-primary"
+          style={{ width: `${(value / 5) * 100}%` }}
+        />
+      </div>
+      <span className="w-6 text-right text-xs font-medium">{value.toFixed(1)}</span>
+    </div>
+  )
 }
 
 export function TutorCard({ tutor }: TutorCardProps) {
@@ -29,7 +55,7 @@ export function TutorCard({ tutor }: TutorCardProps) {
     <Card className="overflow-hidden transition-all hover:shadow-md">
       <CardContent className="p-0">
         <div className="flex flex-col sm:flex-row">
-          <div className="flex items-start gap-4 p-4 sm:p-6">
+          <div className="flex items-start gap-4 p-4 sm:p-6 flex-1">
             <Avatar className="h-16 w-16 shrink-0">
               <AvatarFallback className="bg-primary/10 text-primary text-lg font-semibold">
                 {tutor.initials}
@@ -54,6 +80,11 @@ export function TutorCard({ tutor }: TutorCardProps) {
                     {tutor.specialization}
                   </Badge>
                 )}
+                {tutor.badges?.map((badge) => (
+                  <Badge key={badge} variant="default" className="bg-amber-500 text-white">
+                    {badge}
+                  </Badge>
+                ))}
                 {tutor.subjects.slice(0, 3).map((subject) => (
                   <Badge key={subject} variant="secondary">
                     {subject}
@@ -66,9 +97,17 @@ export function TutorCard({ tutor }: TutorCardProps) {
               <p className="mt-3 text-sm text-muted-foreground line-clamp-2">
                 {tutor.bio}
               </p>
+              {tutor.ratings && (
+                <div className="mt-3 flex flex-col gap-1.5">
+                  <RatingBar label="Intelligence" value={tutor.ratings.intelligence} icon={Brain} />
+                  <RatingBar label="Punctuality" value={tutor.ratings.punctuality} icon={Clock} />
+                  <RatingBar label="Communication" value={tutor.ratings.communication} icon={MessageCircle} />
+                  <RatingBar label="Loyalty" value={tutor.ratings.loyalty} icon={Heart} />
+                </div>
+              )}
             </div>
           </div>
-          <div className="flex flex-row items-center justify-between gap-4 border-t border-border bg-muted/30 p-4 sm:flex-col sm:items-end sm:justify-center sm:border-l sm:border-t-0 sm:p-6">
+          <div className="flex flex-row items-center justify-between gap-4 border-t border-border bg-muted/30 p-4 sm:flex-col sm:items-end sm:justify-center sm:border-l sm:border-t-0 sm:p-6 sm:min-w-[160px]">
             <div className="flex items-center gap-1">
               <Star className="h-4 w-4 fill-accent text-accent" />
               <span className="font-medium">{tutor.rating.toFixed(1)}</span>
