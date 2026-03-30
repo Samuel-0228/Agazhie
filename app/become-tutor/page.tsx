@@ -172,6 +172,9 @@ export default function BecomeTutorPage() {
     })
 
     setIsSubmitting(false)
+    setGrade12Transcript(null)
+    setEueeResult(null)
+    setBadgeApplications([])
     router.push('/become-tutor/success')
   }
 

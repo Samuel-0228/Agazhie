@@ -203,7 +203,7 @@ function RequestFormContent() {
               <Button variant="outline" className="flex-1" onClick={() => {
                 setSubmitted(false)
                 setStep(1)
-                setFormData(prev => ({ ...prev, parentName: '', phone: '', studentName: '', gradeLevel: '', selectedSubjects: [], sessionType: '', frequency: '', paymentDuration: '', budget: '', location: '', additionalNotes: '' }))
+                setFormData(prev => ({ ...prev, parentName: '', phone: '', studentName: '', gradeLevel: '', selectedSubjects: [], sessionType: '', frequency: '', paymentDuration: '', budget: '', location: '', additionalNotes: '', preferredTutor: '' }))
               }}>
                 Start a New Request
               </Button>
