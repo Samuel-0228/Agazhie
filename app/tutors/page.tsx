@@ -20,7 +20,10 @@ const sampleTutors: Tutor[] = [
     location: 'Addis Ababa',
     isVerified: true,
     specialization: 'EUEE Expert',
+    badges: ['EUEE Specialist'],
+    grades: ['9', '10', '11', '12'],
     bio: 'Final year physics student with 3 years of tutoring experience. Helped 50+ students score above 90% in EUEE physics. Patient and methodical teaching approach.',
+    ratings: { intelligence: 4.9, punctuality: 4.8, communication: 4.9, loyalty: 5.0 },
   },
   {
     id: '2',
@@ -34,7 +37,10 @@ const sampleTutors: Tutor[] = [
     location: 'Addis Ababa',
     isVerified: true,
     specialization: 'SAT Prep',
+    badges: ['SAT Specialist'],
+    grades: ['9', '10', '11', '12', 'freshman'],
     bio: 'Scored 1520 on SAT and passionate about helping students achieve their dreams of studying abroad. Specializing in SAT Math and English preparation.',
+    ratings: { intelligence: 4.8, punctuality: 4.9, communication: 4.7, loyalty: 4.8 },
   },
   {
     id: '3',
@@ -47,7 +53,9 @@ const sampleTutors: Tutor[] = [
     hourlyRate: 280,
     location: 'Bahir Dar',
     isVerified: true,
+    grades: ['7', '8', '9', '10', '11', '12'],
     bio: 'Medical school aspirant with strong foundation in natural sciences. I make complex biological concepts easy to understand through visual learning and real-world examples.',
+    ratings: { intelligence: 4.7, punctuality: 4.6, communication: 4.8, loyalty: 4.7 },
   },
   {
     id: '4',
@@ -61,7 +69,10 @@ const sampleTutors: Tutor[] = [
     location: 'Hawassa',
     isVerified: true,
     specialization: 'EUEE Expert',
+    badges: ['EUEE Specialist'],
+    grades: ['9', '10', '11', '12'],
     bio: 'Top scorer in national mathematics olympiad. Specialized in helping struggling students build confidence and strong foundations in mathematics.',
+    ratings: { intelligence: 5.0, punctuality: 4.8, communication: 4.9, loyalty: 4.9 },
   },
   {
     id: '5',
@@ -75,7 +86,9 @@ const sampleTutors: Tutor[] = [
     location: 'Online Only',
     isVerified: true,
     specialization: 'IELTS/TOEFL',
+    grades: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'freshman'],
     bio: 'IELTS Band 8.5 scorer offering comprehensive English language tutoring. Flexible online sessions for students anywhere in Ethiopia.',
+    ratings: { intelligence: 4.6, punctuality: 4.7, communication: 4.9, loyalty: 4.5 },
   },
   {
     id: '6',
@@ -88,7 +101,9 @@ const sampleTutors: Tutor[] = [
     hourlyRate: 300,
     location: 'Mekelle',
     isVerified: true,
+    grades: ['5', '6', '7', '8', '9', '10', '11', '12'],
     bio: 'Chemistry graduate with a passion for making science fun and accessible. I use interactive experiments and demonstrations to help concepts stick.',
+    ratings: { intelligence: 4.8, punctuality: 4.9, communication: 4.8, loyalty: 4.7 },
   },
 ]
 

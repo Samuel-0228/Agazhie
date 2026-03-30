@@ -21,22 +21,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Search, Eye, Phone, Mail, CheckCircle2 } from 'lucide-react'
+import { Search, Eye, MessageCircle, Send } from 'lucide-react'
 import { toast } from 'sonner'
 
 interface TutorRequest {
   id: string
   parentName: string
-  email: string
   phone: string
   studentName: string
   gradeLevel: string
   subjects: string[]
   sessionType: string
   frequency: string
+  budget: string
+  paymentDuration: string
   location: string
   notes: string
-  status: 'new' | 'contacted' | 'matched' | 'completed'
+  preferredTutor: string
+  status: 'draft' | 'sent' | 'completed'
   date: string
 }
 
@@ -44,49 +46,77 @@ const sampleRequests: TutorRequest[] = [
   {
     id: '1',
     parentName: 'Tigist Haile',
-    email: 'tigist@example.com',
     phone: '+251 911 111 111',
     studentName: 'Yared Haile',
     gradeLevel: 'Grade 11',
     subjects: ['Physics', 'Chemistry'],
     sessionType: 'In-Person',
     frequency: '2 sessions per week',
+    budget: '350',
+    paymentDuration: 'monthly',
     location: 'Bole, Addis Ababa',
     notes: 'Preparing for EUEE. Needs help with problem-solving.',
-    status: 'new',
+    preferredTutor: 'Abebe Kebede',
+    status: 'draft',
     date: '2024-01-15',
   },
   {
     id: '2',
     parentName: 'Bekele Tadesse',
-    email: 'bekele@example.com',
     phone: '+251 922 222 222',
     studentName: 'Nahom Bekele',
     gradeLevel: 'Grade 12',
     subjects: ['Mathematics'],
     sessionType: 'Online',
     frequency: '3 sessions per week',
+    budget: '300',
+    paymentDuration: 'biweekly',
     location: 'Online Only',
     notes: 'SAT preparation. Target score: 1400+',
-    status: 'contacted',
+    preferredTutor: 'Sara Tesfaye',
+    status: 'sent',
     date: '2024-01-14',
   },
   {
     id: '3',
     parentName: 'Meron Getachew',
-    email: 'meron@example.com',
     phone: '+251 933 333 333',
     studentName: 'Selam Getachew',
     gradeLevel: 'Grade 10',
     subjects: ['English', 'History'],
     sessionType: 'In-Person',
     frequency: '1 session per week',
+    budget: '250',
+    paymentDuration: 'weekly',
     location: 'Kazanchis, Addis Ababa',
     notes: 'Struggling with essay writing and reading comprehension.',
-    status: 'matched',
+    preferredTutor: '',
+    status: 'completed',
     date: '2024-01-13',
   },
 ]
+
+const statusConfig: Record<TutorRequest['status'], { label: string; variant: 'default' | 'secondary' | 'outline' }> = {
+  draft: { label: 'Draft', variant: 'outline' },
+  sent: { label: 'Sent', variant: 'secondary' },
+  completed: { label: 'Completed', variant: 'default' },
+}
+
+function buildTelegramMessage(req: TutorRequest) {
+  const lines = [
+    `Hi አጋዤ, I'm looking for a tutor:`,
+    `Subject: ${req.subjects.join(', ')}`,
+    `Grade: ${req.gradeLevel}`,
+    `Budget: ${req.budget} ETB/hr`,
+    `Payment: ${req.paymentDuration}`,
+    `Schedule: ${req.sessionType} — ${req.frequency}`,
+  ]
+  if (req.preferredTutor) lines.push(`Preferred Tutor: ${req.preferredTutor}`)
+  if (req.location) lines.push(`Location: ${req.location}`)
+  if (req.notes) lines.push(`Notes: ${req.notes}`)
+  lines.push(`Parent: ${req.parentName} (${req.phone})`)
+  return lines.join('\n')
+}
 
 export default function RequestsPage() {
   const [requests, setRequests] = useState(sampleRequests)
@@ -107,23 +137,8 @@ export default function RequestsPage() {
       )
     )
     toast.success('Status updated', {
-      description: `Request marked as ${status}.`,
+      description: `Request marked as ${statusConfig[status].label}.`,
     })
-  }
-
-  const getStatusColor = (status: TutorRequest['status']) => {
-    switch (status) {
-      case 'new':
-        return 'default'
-      case 'contacted':
-        return 'secondary'
-      case 'matched':
-        return 'outline'
-      case 'completed':
-        return 'outline'
-      default:
-        return 'outline'
-    }
   }
 
   return (
@@ -131,7 +146,7 @@ export default function RequestsPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Parent Requests</h1>
         <p className="mt-2 text-muted-foreground">
-          Manage tutor requests from parents.
+          Manage tutor requests from parents. Track them from Draft → Sent → Completed.
         </p>
       </div>
 
@@ -141,7 +156,7 @@ export default function RequestsPage() {
             <div>
               <CardTitle>Requests</CardTitle>
               <CardDescription>
-                {filteredRequests.filter(r => r.status === 'new').length} new requests awaiting response
+                {filteredRequests.filter(r => r.status === 'draft').length} draft requests awaiting Telegram contact
               </CardDescription>
             </div>
             <div className="relative w-full sm:w-64">
@@ -162,7 +177,7 @@ export default function RequestsPage() {
                 <TableHead>Parent</TableHead>
                 <TableHead>Student</TableHead>
                 <TableHead>Subjects</TableHead>
-                <TableHead>Type</TableHead>
+                <TableHead>Budget</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -194,13 +209,10 @@ export default function RequestsPage() {
                       )}
                     </div>
                   </TableCell>
-                  <TableCell>{req.sessionType}</TableCell>
+                  <TableCell>{req.budget} ETB/hr</TableCell>
                   <TableCell>
-                    <Badge
-                      variant={getStatusColor(req.status)}
-                      className="capitalize"
-                    >
-                      {req.status}
+                    <Badge variant={statusConfig[req.status].variant} className="capitalize">
+                      {statusConfig[req.status].label}
                     </Badge>
                   </TableCell>
                   <TableCell>{req.date}</TableCell>
@@ -244,20 +256,20 @@ export default function RequestsPage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Status</p>
-                    <Badge variant={getStatusColor(selectedReq.status)} className="capitalize">
-                      {selectedReq.status}
+                    <Badge variant={statusConfig[selectedReq.status].variant} className="capitalize">
+                      {statusConfig[selectedReq.status].label}
                     </Badge>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{selectedReq.email}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Phone</p>
                     <span className="text-sm">{selectedReq.phone}</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Preferred Tutor</p>
+                    <span className="text-sm">{selectedReq.preferredTutor || '—'}</span>
                   </div>
                 </div>
 
@@ -285,19 +297,21 @@ export default function RequestsPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Session Type</p>
-                    <p>{selectedReq.sessionType}</p>
+                    <p className="text-sm font-medium text-muted-foreground">Budget</p>
+                    <p>{selectedReq.budget} ETB/hr ({selectedReq.paymentDuration})</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Frequency</p>
-                    <p>{selectedReq.frequency}</p>
+                    <p className="text-sm font-medium text-muted-foreground">Session Type</p>
+                    <p>{selectedReq.sessionType} — {selectedReq.frequency}</p>
                   </div>
                 </div>
 
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Location</p>
-                  <p>{selectedReq.location}</p>
-                </div>
+                {selectedReq.location && (
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Location</p>
+                    <p>{selectedReq.location}</p>
+                  </div>
+                )}
 
                 {selectedReq.notes && (
                   <div>
@@ -305,39 +319,49 @@ export default function RequestsPage() {
                     <p className="text-sm">{selectedReq.notes}</p>
                   </div>
                 )}
+
+                {/* Telegram CTA */}
+                <div className="rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30 p-3">
+                  <p className="mb-2 text-sm font-medium text-blue-900 dark:text-blue-200">Contact Parent via Telegram</p>
+                  <Button
+                    size="sm"
+                    className="gap-1.5 bg-[#0088cc] hover:bg-[#0077bb] text-white"
+                    onClick={() => {
+                      const msg = buildTelegramMessage(selectedReq)
+                      window.open(`https://t.me/agazhie?text=${encodeURIComponent(msg)}`, '_blank')
+                      handleStatusUpdate(selectedReq.id, 'sent')
+                      setIsDialogOpen(false)
+                    }}
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    Open Telegram
+                    <Send className="h-3.5 w-3.5" />
+                  </Button>
+                  <p className="mt-1.5 text-xs text-blue-700 dark:text-blue-400">
+                    Opens @agazhie Telegram with pre-filled message. Status will be marked as Sent.
+                  </p>
+                </div>
               </div>
 
               <DialogFooter className="flex-col gap-2 sm:flex-row">
-                {selectedReq.status === 'new' && (
+                {selectedReq.status === 'draft' && (
                   <Button
                     variant="outline"
                     onClick={() => {
-                      handleStatusUpdate(selectedReq.id, 'contacted')
+                      handleStatusUpdate(selectedReq.id, 'sent')
                       setIsDialogOpen(false)
                     }}
                   >
-                    Mark as Contacted
+                    Mark as Sent
                   </Button>
                 )}
-                {selectedReq.status === 'contacted' && (
-                  <Button
-                    onClick={() => {
-                      handleStatusUpdate(selectedReq.id, 'matched')
-                      setIsDialogOpen(false)
-                    }}
-                  >
-                    <CheckCircle2 className="mr-2 h-4 w-4" />
-                    Mark as Matched
-                  </Button>
-                )}
-                {selectedReq.status === 'matched' && (
+                {selectedReq.status === 'sent' && (
                   <Button
                     onClick={() => {
                       handleStatusUpdate(selectedReq.id, 'completed')
                       setIsDialogOpen(false)
                     }}
                   >
-                    <CheckCircle2 className="mr-2 h-4 w-4" />
                     Mark as Completed
                   </Button>
                 )}
@@ -349,3 +373,4 @@ export default function RequestsPage() {
     </div>
   )
 }
+

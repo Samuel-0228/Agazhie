@@ -7,7 +7,8 @@ import {
   MessageSquare, 
   ClipboardList,
   TrendingUp,
-  ArrowRight 
+  ArrowRight,
+  Award,
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -25,6 +26,13 @@ const stats = [
     change: '3 new today',
     icon: ClipboardList,
     href: '/admin/applications',
+  },
+  {
+    title: 'Badge Applications',
+    value: '8',
+    change: '2 pending review',
+    icon: Award,
+    href: '/admin/badges',
   },
   {
     title: 'Active Requests',
@@ -76,7 +84,7 @@ const recentRequests = [
     studentGrade: 'Grade 11',
     subjects: ['Physics', 'Chemistry'],
     date: '1 hour ago',
-    status: 'new',
+    status: 'draft',
   },
   {
     id: '2',
@@ -84,7 +92,7 @@ const recentRequests = [
     studentGrade: 'Grade 12',
     subjects: ['Mathematics'],
     date: '3 hours ago',
-    status: 'matched',
+    status: 'sent',
   },
   {
     id: '3',
@@ -92,7 +100,7 @@ const recentRequests = [
     studentGrade: 'Grade 10',
     subjects: ['English', 'History'],
     date: '1 day ago',
-    status: 'new',
+    status: 'completed',
   },
 ]
 
@@ -107,7 +115,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {stats.map((stat) => (
           <Card key={stat.title}>
             <CardContent className="pt-6">
