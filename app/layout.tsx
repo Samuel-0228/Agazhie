@@ -16,9 +16,9 @@ const notoEthiopic = Noto_Sans_Ethiopic({
 })
 
 export const metadata: Metadata = {
-  title: 'አጋዤ - Your Best Tutors',
-  description: 'Find verified, trusted tutors for your children. Connect with qualified student and graduate tutors who excel in EUEE, SAT, and all subjects.',
-  keywords: ['tutors', 'Ethiopia', 'education', 'EUEE', 'SAT', 'learning', 'አጋዤ'],
+  title: 'Goongoon — Find the Perfect Tutor for Your Child',
+  description: 'Connect with verified university students and graduates who excel academically. Personalized tutoring for EUEE, SAT, and all subjects across Ethiopia.',
+  keywords: ['tutors', 'Ethiopia', 'education', 'EUEE', 'SAT', 'learning', 'Goongoon'],
 }
 
 export default function RootLayout({

@@ -4,39 +4,43 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.985 0.002 90);
-  --foreground: oklch(0.205 0.015 60);
+  /* Warm cream background inspired by minimalist interior design */
+  --background: oklch(0.978 0.006 75);
+  --foreground: oklch(0.13 0.012 60);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.205 0.015 60);
+  --card-foreground: oklch(0.13 0.012 60);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.205 0.015 60);
-  --primary: oklch(0.55 0.18 145);
+  --popover-foreground: oklch(0.13 0.012 60);
+  /* Rich forest green – Goongoon brand primary */
+  --primary: oklch(0.44 0.155 145);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0.01 90);
-  --secondary-foreground: oklch(0.205 0.015 60);
-  --muted: oklch(0.96 0.008 90);
-  --muted-foreground: oklch(0.5 0.01 60);
-  --accent: oklch(0.75 0.14 55);
-  --accent-foreground: oklch(0.205 0.015 60);
+  /* Warm off-white secondary */
+  --secondary: oklch(0.96 0.01 80);
+  --secondary-foreground: oklch(0.13 0.012 60);
+  --muted: oklch(0.955 0.008 80);
+  --muted-foreground: oklch(0.48 0.012 65);
+  /* Warm amber/tan accent */
+  --accent: oklch(0.72 0.1 65);
+  --accent-foreground: oklch(0.13 0.012 60);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.91 0.01 90);
-  --input: oklch(0.91 0.01 90);
-  --ring: oklch(0.55 0.18 145);
-  --chart-1: oklch(0.55 0.18 145);
-  --chart-2: oklch(0.75 0.14 55);
+  --border: oklch(0.895 0.009 80);
+  --input: oklch(0.895 0.009 80);
+  --ring: oklch(0.44 0.155 145);
+  --chart-1: oklch(0.44 0.155 145);
+  --chart-2: oklch(0.72 0.1 65);
   --chart-3: oklch(0.6 0.12 200);
   --chart-4: oklch(0.7 0.15 30);
   --chart-5: oklch(0.65 0.16 280);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.985 0.002 90);
-  --sidebar-foreground: oklch(0.205 0.015 60);
-  --sidebar-primary: oklch(0.55 0.18 145);
+  --radius: 0.875rem;
+  --sidebar: oklch(0.978 0.006 75);
+  --sidebar-foreground: oklch(0.13 0.012 60);
+  --sidebar-primary: oklch(0.44 0.155 145);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.96 0.04 145);
-  --sidebar-accent-foreground: oklch(0.205 0.015 60);
-  --sidebar-border: oklch(0.91 0.01 90);
-  --sidebar-ring: oklch(0.55 0.18 145);
+  --sidebar-accent: oklch(0.955 0.04 145);
+  --sidebar-accent-foreground: oklch(0.13 0.012 60);
+  --sidebar-border: oklch(0.895 0.009 80);
+  --sidebar-ring: oklch(0.44 0.155 145);
 }
 
 .dark {
