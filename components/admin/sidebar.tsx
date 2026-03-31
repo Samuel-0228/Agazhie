@@ -14,6 +14,7 @@ import {
   Settings,
   LogOut,
   ClipboardList,
+  Award,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -28,6 +29,11 @@ const navItems = [
     title: 'Tutor Applications',
     href: '/admin/applications',
     icon: ClipboardList,
+  },
+  {
+    title: 'Badge Applications',
+    href: '/admin/badges',
+    icon: Award,
   },
   {
     title: 'Tutors',
