@@ -8,35 +8,35 @@ import Floating, { FloatingElement } from "@/components/ui/parallax-floating"
 const exampleImages = [
   {
     url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRycSrt-4S_vCaSdt37XP5QvUSPfgXcjctdtA&s",
-    title: "Village near Addis Ababa",
+    title: "Addis village scene 1",
   },
   {
     url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi2pgO1QUk92zv8mWL--QtRm9gS0qJa6zV4Q&s",
-    title: "Village near Addis Ababa",
+    title: "Addis village scene 2",
   },
   {
     url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVfK70NcmlmSXpFjSe4DSCpjhaODG9R8Rqgg&s",
-    title: "Village near Addis Ababa",
+    title: "Addis village scene 3",
   },
   {
     url: "https://c8.alamy.com/comp/E6K0Y9/mexico-square-addis-ababa-ethiopia-1975-E6K0Y9.jpg",
-    title: "Mexico Square, Addis Ababa (1975)",
+    title: "Mexico Square historic photo",
   },
   {
     url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
-    title: "New age buildings in Mexico Square, Addis Ababa",
+    title: "Mexico Square modern buildings 1",
   },
   {
     url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
-    title: "New age buildings in Mexico Square, Addis Ababa",
+    title: "Mexico Square modern buildings 2",
   },
   {
     url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
-    title: "New age buildings in Mexico Square, Addis Ababa",
+    title: "Mexico Square modern buildings 3",
   },
   {
     url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
-    title: "New age buildings in Mexico Square, Addis Ababa",
+    title: "Mexico Square modern buildings 4",
   },
 ]
 
