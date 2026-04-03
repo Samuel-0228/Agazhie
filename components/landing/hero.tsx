@@ -7,36 +7,36 @@ import Floating, { FloatingElement } from "@/components/ui/parallax-floating"
 
 const exampleImages = [
   {
-    url: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop", // Traditional village houses near Addis Ababa with crops
-    title: "Traditional village houses near Addis Ababa",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1587502537745-84b86da1204f?q=80&w=2000&auto=format&fit=crop", // Rural Ethiopian countryside landscape
-    title: "Rural outskirts of Addis Ababa",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1605640840605-14ac5c4f4e7d?q=80&w=2000&auto=format&fit=crop", // Ethiopian village with traditional homes and green hills
-    title: "Ethiopian village landscape near Addis Ababa",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop", // Traditional thatched roof houses in Ethiopian countryside
-    title: "Traditional houses in Addis Ababa outskirts",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2000&auto=format&fit=crop", // Rural Ethiopian village scene with homes
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRycSrt-4S_vCaSdt37XP5QvUSPfgXcjctdtA&s",
     title: "Village near Addis Ababa",
   },
   {
-    url: "https://images.unsplash.com/photo-1585208798174-6cedd78e0198?q=80&w=2000&auto=format&fit=crop", // Green countryside around Addis Ababa with traditional dwellings
-    title: "Countryside village Addis Ababa",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi2pgO1QUk92zv8mWL--QtRm9gS0qJa6zV4Q&s",
+    title: "Village near Addis Ababa",
   },
   {
-    url: "https://images.unsplash.com/photo-1600585154340-be6161a56a9c?q=80&w=2000&auto=format&fit=crop", // Mountain village landscape near Addis Ababa region
-    title: "Mountain village near Addis Ababa",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVfK70NcmlmSXpFjSe4DSCpjhaODG9R8Rqgg&s",
+    title: "Village near Addis Ababa",
   },
   {
-    url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2000&auto=format&fit=crop", // Traditional Ethiopian rural homes and fields
-    title: "Rural village scene Addis Ababa",
+    url: "https://c8.alamy.com/comp/E6K0Y9/mexico-square-addis-ababa-ethiopia-1975-E6K0Y9.jpg",
+    title: "Mexico Square, Addis Ababa (1975)",
+  },
+  {
+    url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
+    title: "New age buildings in Mexico Square, Addis Ababa",
+  },
+  {
+    url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
+    title: "New age buildings in Mexico Square, Addis Ababa",
+  },
+  {
+    url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
+    title: "New age buildings in Mexico Square, Addis Ababa",
+  },
+  {
+    url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
+    title: "New age buildings in Mexico Square, Addis Ababa",
   },
 ]
 
@@ -110,6 +110,8 @@ export function Hero() {
           />
         </FloatingElement>
       </Floating>
+
+      {/* Text and buttons remain unchanged */}
       <div className="flex flex-col justify-center items-center w-[250px] sm:w-[300px] md:w-[500px] lg:w-[700px] z-50 pointer-events-auto">
         <motion.h1
           className="text-3xl sm:text-5xl md:text-7xl lg:text-7xl text-center w-full justify-center items-center flex-col flex whitespace-pre leading-tight font-extrabold tracking-tight space-y-1 md:space-y-4"
