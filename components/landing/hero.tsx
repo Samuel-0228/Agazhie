@@ -1,5 +1,4 @@
 "use client"
-
 import { useEffect, useRef } from "react"
 import Link from "next/link"
 import { LayoutGroup, motion } from "framer-motion"
@@ -8,36 +7,36 @@ import Floating, { FloatingElement } from "@/components/ui/parallax-floating"
 
 const exampleImages = [
   {
-    url: "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=2000&auto=format&fit=crop",
-    title: "Student studying with tutor",
+    url: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop", // Traditional village houses near Addis Ababa with crops
+    title: "Traditional village houses near Addis Ababa",
   },
   {
-    url: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=2000&auto=format&fit=crop",
-    title: "Students in library",
+    url: "https://images.unsplash.com/photo-1587502537745-84b86da1204f?q=80&w=2000&auto=format&fit=crop", // Rural Ethiopian countryside landscape
+    title: "Rural outskirts of Addis Ababa",
   },
   {
-    url: "https://images.unsplash.com/photo-1503676382389-4809596d5290?q=80&w=2000&auto=format&fit=crop",
-    title: "Online tutoring session",
+    url: "https://images.unsplash.com/photo-1605640840605-14ac5c4f4e7d?q=80&w=2000&auto=format&fit=crop", // Ethiopian village with traditional homes and green hills
+    title: "Ethiopian village landscape near Addis Ababa",
   },
   {
-    url: "https://images.unsplash.com/photo-1464983953574-0892a716854b?q=80&w=2000&auto=format&fit=crop",
-    title: "Student writing in notebook",
+    url: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop", // Traditional thatched roof houses in Ethiopian countryside
+    title: "Traditional houses in Addis Ababa outskirts",
   },
   {
-    url: "https://images.unsplash.com/photo-1465101162946-4377e57745c3?q=80&w=2000&auto=format&fit=crop",
-    title: "Tutoring classroom",
+    url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2000&auto=format&fit=crop", // Rural Ethiopian village scene with homes
+    title: "Village near Addis Ababa",
   },
   {
-    url: "https://images.unsplash.com/photo-1510936111840-6cef99faf2a9?q=80&w=2000&auto=format&fit=crop",
-    title: "Online learning on laptop",
+    url: "https://images.unsplash.com/photo-1585208798174-6cedd78e0198?q=80&w=2000&auto=format&fit=crop", // Green countryside around Addis Ababa with traditional dwellings
+    title: "Countryside village Addis Ababa",
   },
   {
-    url: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=2000&auto=format&fit=crop",
-    title: "Exam preparation",
+    url: "https://images.unsplash.com/photo-1600585154340-be6161a56a9c?q=80&w=2000&auto=format&fit=crop", // Mountain village landscape near Addis Ababa region
+    title: "Mountain village near Addis Ababa",
   },
   {
-    url: "https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?q=80&w=2000&auto=format&fit=crop",
-    title: "Young students working in classroom",
+    url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2000&auto=format&fit=crop", // Traditional Ethiopian rural homes and fields
+    title: "Rural village scene Addis Ababa",
   },
 ]
 
@@ -58,7 +57,6 @@ export function Hero() {
             transition={{ delay: 0.5 }}
           />
         </FloatingElement>
-
         <FloatingElement
           depth={1}
           className="top-[0%] left-[8%] md:top-[6%] md:left-[11%]"
@@ -72,7 +70,6 @@ export function Hero() {
             transition={{ delay: 0.7 }}
           />
         </FloatingElement>
-
         <FloatingElement
           depth={4}
           className="top-[90%] left-[6%] md:top-[80%] md:left-[8%]"
@@ -86,7 +83,6 @@ export function Hero() {
             transition={{ delay: 0.9 }}
           />
         </FloatingElement>
-
         <FloatingElement
           depth={2}
           className="top-[0%] left-[87%] md:top-[2%] md:left-[83%]"
@@ -100,7 +96,6 @@ export function Hero() {
             transition={{ delay: 1.1 }}
           />
         </FloatingElement>
-
         <FloatingElement
           depth={1}
           className="top-[78%] left-[83%] md:top-[68%] md:left-[83%]"
@@ -115,7 +110,6 @@ export function Hero() {
           />
         </FloatingElement>
       </Floating>
-
       <div className="flex flex-col justify-center items-center w-[250px] sm:w-[300px] md:w-[500px] lg:w-[700px] z-50 pointer-events-auto">
         <motion.h1
           className="text-3xl sm:text-5xl md:text-7xl lg:text-7xl text-center w-full justify-center items-center flex-col flex whitespace-pre leading-tight font-extrabold tracking-tight space-y-1 md:space-y-4"
@@ -159,7 +153,6 @@ export function Hero() {
         >
           Connect with verified university students and graduates who excel academically.
         </motion.p>
-
         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 items-center mt-10 sm:mt-16 md:mt-20 lg:mt-20">
           <motion.button
             className="sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight text-primary-foreground bg-primary px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 rounded-full z-20 shadow-xl"
