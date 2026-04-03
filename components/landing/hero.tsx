@@ -1,198 +1,42 @@
-"use client"
-import { useEffect, useRef } from "react"
-import Link from "next/link"
-import { LayoutGroup, motion } from "framer-motion"
-import { TextRotate } from "@/components/ui/text-rotate"
-import Floating, { FloatingElement } from "@/components/ui/parallax-floating"
+import Link from 'next/link'
 
-const exampleImages = [
-  {
-    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRycSrt-4S_vCaSdt37XP5QvUSPfgXcjctdtA&s",
-    title: "Addis village scene 1",
-  },
-  {
-    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi2pgO1QUk92zv8mWL--QtRm9gS0qJa6zV4Q&s",
-    title: "Addis village scene 2",
-  },
-  {
-    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVfK70NcmlmSXpFjSe4DSCpjhaODG9R8Rqgg&s",
-    title: "Addis village scene 3",
-  },
-  {
-    url: "https://c8.alamy.com/comp/E6K0Y9/mexico-square-addis-ababa-ethiopia-1975-E6K0Y9.jpg",
-    title: "Mexico Square historic photo",
-  },
-  {
-    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvIAWVgyDHWmJV4VgIAzT3s7ZxxrtCV3YFQ&s",
-    title: "Mexico Square modern buildings 1",
-  },
-  {
-    url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
-    title: "Mexico Square modern buildings 2",
-  },
-  {
-    url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
-    title: "Mexico Square modern buildings 3",
-  },
-  {
-    url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
-    title: "Mexico Square modern buildings 4",
-  },
-]
+const videoUrl =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4'
 
 export function Hero() {
   return (
-    <section className="w-full h-[85vh] overflow-hidden md:overflow-visible flex flex-col items-center justify-center relative bg-background">
-      <Floating sensitivity={-0.5} className="h-full">
-        <FloatingElement
-          depth={0.5}
-          className="top-[15%] left-[2%] md:top-[25%] md:left-[5%]"
-        >
-          <motion.img
-            src={exampleImages[0].url}
-            alt={exampleImages[0].title}
-            className="w-16 h-12 sm:w-24 sm:h-16 md:w-28 md:h-20 lg:w-32 lg:h-24 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform -rotate-[3deg] shadow-2xl rounded-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          />
-        </FloatingElement>
-        <FloatingElement
-          depth={1}
-          className="top-[0%] left-[8%] md:top-[6%] md:left-[11%]"
-        >
-          <motion.img
-            src={exampleImages[1].url}
-            alt={exampleImages[1].title}
-            className="w-40 h-28 sm:w-48 sm:h-36 md:w-56 md:h-44 lg:w-60 lg:h-48 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform -rotate-12 shadow-2xl rounded-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-          />
-        </FloatingElement>
-        <FloatingElement
-          depth={4}
-          className="top-[90%] left-[6%] md:top-[80%] md:left-[8%]"
-        >
-          <motion.img
-            src={exampleImages[2].url}
-            alt={exampleImages[2].title}
-            className="w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 lg:w-64 lg:h-64 object-cover -rotate-[4deg] hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rounded-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-          />
-        </FloatingElement>
-        <FloatingElement
-          depth={2}
-          className="top-[0%] left-[87%] md:top-[2%] md:left-[83%]"
-        >
-          <motion.img
-            src={exampleImages[3].url}
-            alt={exampleImages[3].title}
-            className="w-40 h-36 sm:w-48 sm:h-44 md:w-60 md:h-52 lg:w-64 lg:h-56 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[6deg] rounded-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
-          />
-        </FloatingElement>
-        <FloatingElement
-          depth={1}
-          className="top-[78%] left-[83%] md:top-[68%] md:left-[83%]"
-        >
-          <motion.img
-            src={exampleImages[4].url}
-            alt={exampleImages[4].title}
-            className="w-44 h-44 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[19deg] rounded-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.3 }}
-          />
-        </FloatingElement>
-      </Floating>
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 z-0 h-full w-full object-cover"
+        aria-hidden="true"
+      >
+        <source src={videoUrl} type="video/mp4" />
+      </video>
 
-      {/* Text and buttons remain unchanged */}
-      <div className="flex flex-col justify-center items-center w-[250px] sm:w-[300px] md:w-[500px] lg:w-[700px] z-50 pointer-events-auto">
-        <motion.h1
-          className="text-3xl sm:text-5xl md:text-7xl lg:text-7xl text-center w-full justify-center items-center flex-col flex whitespace-pre leading-tight font-extrabold tracking-tight space-y-1 md:space-y-4"
-          animate={{ opacity: 1, y: 0 }}
-          initial={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.2, ease: "easeOut", delay: 0.3 }}
+      <div className="relative z-10 flex w-full flex-col items-center px-6 pt-32 pb-40 text-center">
+        <h1
+          className="animate-fade-rise max-w-7xl text-5xl leading-[0.95] tracking-[-2.46px] text-foreground sm:text-7xl md:text-8xl"
+          style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400 }}
         >
-          <span>Find the perfect </span>
-          <LayoutGroup>
-            <motion.span layout className="flex whitespace-pre">
-              <motion.span
-                layout
-                className="flex whitespace-pre"
-                transition={{ type: "spring", damping: 30, stiffness: 400 }}
-              >
-                tutor for{" "}
-              </motion.span>
-              <TextRotate
-                texts={[
-                  "math",
-                  "science",
-                  "coding",
-                  "reading",
-                  "everything",
-                  "your child"
-                ]}
-                mainClassName="overflow-hidden pr-3 text-primary py-0 pb-2 md:pb-4 rounded-sm"
-                staggerDuration={0.03}
-                staggerFrom="last"
-                rotationInterval={3000}
-                transition={{ type: "spring", damping: 30, stiffness: 400 }}
-              />
-            </motion.span>
-          </LayoutGroup>
-        </motion.h1>
-        <motion.p
-          className="text-sm sm:text-lg md:text-xl lg:text-2xl text-center text-muted-foreground pt-4 sm:pt-8 md:pt-10 lg:pt-12"
-          animate={{ opacity: 1, y: 0 }}
-          initial={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.2, ease: "easeOut", delay: 0.5 }}
+          Where <em className="not-italic text-muted-foreground">dreams</em> rise{' '}
+          <em className="not-italic text-muted-foreground">through the silence.</em>
+        </h1>
+
+        <p className="animate-fade-rise-delay mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          We&apos;re designing tools for deep thinkers, bold creators, and quiet rebels.
+          Amid the chaos, we build digital spaces for sharp focus and inspired work.
+        </p>
+
+        <Link
+          href="/contact"
+          className="liquid-glass animate-fade-rise-delay-2 mt-12 inline-flex cursor-pointer rounded-full px-14 py-5 text-base text-foreground transition-transform hover:scale-[1.03]"
         >
-          Connect with verified university students and graduates who excel academically.
-        </motion.p>
-        <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 items-center mt-10 sm:mt-16 md:mt-20 lg:mt-20">
-          <motion.button
-            className="sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight text-primary-foreground bg-primary px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 rounded-sm z-20 shadow-xl"
-            animate={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 20 }}
-            transition={{
-              duration: 0.2,
-              ease: "easeOut",
-              delay: 0.7,
-              scale: { duration: 0.2 },
-            }}
-            whileHover={{
-              scale: 1.05,
-              transition: { type: "spring", damping: 30, stiffness: 400 },
-            }}
-          >
-            <Link href="/tutors" className="flex items-center">
-              Find a Tutor <span className="ml-2 font-serif text-xl border border-primary-foreground/30 px-2 rounded-sm leading-none">→</span>
-            </Link>
-          </motion.button>
-          <motion.button
-            className="sm:text-base md:text-lg lg:text-xl font-medium tracking-tight bg-muted/80 backdrop-blur-sm text-foreground hover:bg-muted border border-border px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 rounded-sm z-20 shadow-sm"
-            animate={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 20 }}
-            transition={{
-              duration: 0.2,
-              ease: "easeOut",
-              delay: 0.7,
-              scale: { duration: 0.2 },
-            }}
-            whileHover={{
-              scale: 1.05,
-              transition: { type: "spring", damping: 30, stiffness: 400 },
-            }}
-          >
-            <Link href="/become-tutor">Become a Tutor</Link>
-          </motion.button>
-        </div>
+          <span className="relative z-10">Begin Journey</span>
+        </Link>
       </div>
     </section>
   )
