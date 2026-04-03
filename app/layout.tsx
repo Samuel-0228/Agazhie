@@ -4,21 +4,21 @@ import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
 
-const notoEthiopic = Noto_Sans_Ethiopic({ 
+const notoEthiopic = Noto_Sans_Ethiopic({
   subsets: ['ethiopic'],
   variable: '--font-ethiopic',
   weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
-  title: 'Goongoon — Find the Perfect Tutor for Your Child',
+  title: 'Agazhie — Find the Perfect Tutor for Your Child',
   description: 'Connect with verified university students and graduates who excel academically. Personalized tutoring for EUEE, SAT, and all subjects across Ethiopia.',
-  keywords: ['tutors', 'Ethiopia', 'education', 'EUEE', 'SAT', 'learning', 'Goongoon'],
+  keywords: ['tutors', 'Ethiopia', 'education', 'EUEE', 'SAT', 'learning', 'Agazhie'],
 }
 
 export default function RootLayout({
