@@ -20,6 +20,7 @@ import { FieldGroup, Field, FieldLabel, FieldSet, FieldLegend } from '@/componen
 import { toast } from 'sonner'
 import { CheckCircle2, ArrowLeft, ArrowRight, Send, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
 
 const subjects = [
   'Mathematics',
@@ -138,14 +139,38 @@ function RequestFormContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const message = buildTelegramMessage(formData)
-    const url = `https://t.me/agazhie?text=${encodeURIComponent(message)}`
-    setTelegramUrl(url)
-    setSubmitted(true)
+    try {
+      const supabase = createClient()
+      
+      const { error } = await supabase.from('tutor_requests').insert({
+        parent_name: formData.parentName,
+        phone: formData.phone,
+        student_name: formData.studentName,
+        grade_level: formData.gradeLevel,
+        subjects: formData.selectedSubjects,
+        session_type: formData.sessionType,
+        frequency: formData.frequency,
+        budget: parseFloat(formData.budget),
+        payment_duration: formData.paymentDuration,
+        location: formData.location,
+        notes: formData.additionalNotes,
+        preferred_tutor_id: tutorId || null,
+        status: 'new'
+      })
 
-    toast.success('Request ready!', {
-      description: 'Click the Telegram button below to send your request directly to @agazhie.',
-    })
+      if (error) throw new Error(error.message)
+
+      const message = buildTelegramMessage(formData)
+      const url = `https://t.me/agazhie?text=${encodeURIComponent(message)}`
+      setTelegramUrl(url)
+      setSubmitted(true)
+
+      toast.success('Request saved & ready!', {
+        description: 'Click the Telegram button below to send your request directly to @agazhie.',
+      })
+    } catch (err: any) {
+      toast.error('Failed to submit request', { description: err.message })
+    }
   }
 
   const canProceedStep1 = formData.parentName && formData.phone

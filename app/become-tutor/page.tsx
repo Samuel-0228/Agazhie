@@ -21,6 +21,7 @@ import { FieldGroup, Field, FieldLabel, FieldSet, FieldLegend } from '@/componen
 import { toast } from 'sonner'
 import { CheckCircle2, ArrowLeft, ArrowRight, GraduationCap, Users, DollarSign, Clock, Upload, Plus, X, Award } from 'lucide-react'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
 
 const subjects = [
   'Mathematics',
@@ -164,18 +165,82 @@ export default function BecomeTutorPage() {
     
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    try {
+      const supabase = createClient()
+      const folderPrefix = `app_${Date.now()}`
 
-    toast.success('Application submitted successfully!', {
-      description: 'We will review your application and get back to you within 48 hours.',
-    })
+      // Upload transcripts
+      const transcriptExt = grade12Transcript.name.split('.').pop()
+      const { data: transcriptData, error: tErr } = await supabase.storage
+        .from('application_documents')
+        .upload(`${folderPrefix}/transcript.${transcriptExt}`, grade12Transcript)
+      if (tErr) throw new Error('Failed to upload transcript: ' + tErr.message)
 
-    setIsSubmitting(false)
-    setGrade12Transcript(null)
-    setEueeResult(null)
-    setBadgeApplications([])
-    router.push('/become-tutor/success')
+      // Upload EUEE
+      const eueeExt = eueeResult.name.split('.').pop()
+      const { data: eueeData, error: eErr } = await supabase.storage
+        .from('application_documents')
+        .upload(`${folderPrefix}/euee.${eueeExt}`, eueeResult)
+      if (eErr) throw new Error('Failed to upload EUEE result: ' + eErr.message)
+
+      // Insert Application
+      const { data: appData, error: appErr } = await supabase.from('tutor_applications').insert({
+        full_name: formData.fullName,
+        phone: formData.phone,
+        email: formData.email,
+        university: formData.university === 'other' ? formData.otherUniversity : formData.university,
+        major: formData.major,
+        year_of_study: formData.yearOfStudy,
+        subjects: formData.selectedSubjects,
+        grade_levels: formData.gradeLevels,
+        specialization: formData.specialization,
+        hourly_rate: parseFloat(formData.hourlyRate),
+        availability: formData.availability,
+        bio: formData.bio,
+        experience: formData.experience,
+        transcript_url: transcriptData.path,
+        euee_url: eueeData.path,
+        status: 'pending'
+      }).select().single()
+
+      if (appErr) throw new Error('Failed to submit application: ' + appErr.message)
+
+      // Insert Badges if any
+      if (applyingForBadges && badgeApplications.length > 0) {
+        for (let i = 0; i < badgeApplications.length; i++) {
+          const badgeApp = badgeApplications[i]
+          let proofPath = null
+          if (badgeApp.file) {
+            const bExt = badgeApp.file.name.split('.').pop()
+            const { data: bData } = await supabase.storage
+              .from('badge_proofs')
+              .upload(`${appData.id}/${badgeApp.badgeType}.${bExt}`, badgeApp.file)
+            if (bData) proofPath = bData.path
+          }
+          if (badgeApp.badgeType) {
+            await supabase.from('badge_applications').insert({
+              application_id: appData.id,
+              badge_type: badgeApp.badgeType,
+              proof_url: proofPath
+            })
+          }
+        }
+      }
+
+      toast.success('Application submitted successfully!', {
+        description: 'We will review your application and get back to you within 48 hours.',
+      })
+
+      setGrade12Transcript(null)
+      setEueeResult(null)
+      setBadgeApplications([])
+      router.push('/become-tutor/success')
+      
+    } catch (err: any) {
+      toast.error('Submission Failed', { description: err.message })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const addBadgeApplication = () => {

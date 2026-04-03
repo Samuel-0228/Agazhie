@@ -5,107 +5,7 @@ import { TutorFilters } from '@/components/tutors/tutor-filters'
 import { TutorList } from '@/components/tutors/tutor-list'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { Tutor } from '@/components/tutors/tutor-card'
-
-// Sample data - will be replaced with database queries
-const sampleTutors: Tutor[] = [
-  {
-    id: '1',
-    name: 'Abebe Kebede',
-    initials: 'AK',
-    university: 'Addis Ababa University - Physics',
-    subjects: ['Physics', 'Mathematics', 'Chemistry'],
-    rating: 4.9,
-    reviewCount: 47,
-    hourlyRate: 350,
-    location: 'Addis Ababa',
-    isVerified: true,
-    specialization: 'EUEE Expert',
-    badges: ['EUEE Specialist'],
-    grades: ['9', '10', '11', '12'],
-    bio: 'Final year physics student with 3 years of tutoring experience. Helped 50+ students score above 90% in EUEE physics. Patient and methodical teaching approach.',
-    ratings: { intelligence: 4.9, punctuality: 4.8, communication: 4.9, loyalty: 5.0 },
-  },
-  {
-    id: '2',
-    name: 'Sara Tesfaye',
-    initials: 'ST',
-    university: 'AAiT - Computer Science',
-    subjects: ['Mathematics', 'ICT', 'English'],
-    rating: 4.8,
-    reviewCount: 32,
-    hourlyRate: 300,
-    location: 'Addis Ababa',
-    isVerified: true,
-    specialization: 'SAT Prep',
-    badges: ['SAT Specialist'],
-    grades: ['9', '10', '11', '12', 'freshman'],
-    bio: 'Scored 1520 on SAT and passionate about helping students achieve their dreams of studying abroad. Specializing in SAT Math and English preparation.',
-    ratings: { intelligence: 4.8, punctuality: 4.9, communication: 4.7, loyalty: 4.8 },
-  },
-  {
-    id: '3',
-    name: 'Dawit Mulugeta',
-    initials: 'DM',
-    university: 'Bahir Dar University - Biology',
-    subjects: ['Biology', 'Chemistry', 'Physics'],
-    rating: 4.7,
-    reviewCount: 28,
-    hourlyRate: 280,
-    location: 'Bahir Dar',
-    isVerified: true,
-    grades: ['7', '8', '9', '10', '11', '12'],
-    bio: 'Medical school aspirant with strong foundation in natural sciences. I make complex biological concepts easy to understand through visual learning and real-world examples.',
-    ratings: { intelligence: 4.7, punctuality: 4.6, communication: 4.8, loyalty: 4.7 },
-  },
-  {
-    id: '4',
-    name: 'Hanna Girma',
-    initials: 'HG',
-    university: 'Hawassa University - Mathematics',
-    subjects: ['Mathematics', 'Physics'],
-    rating: 4.9,
-    reviewCount: 56,
-    hourlyRate: 320,
-    location: 'Hawassa',
-    isVerified: true,
-    specialization: 'EUEE Expert',
-    badges: ['EUEE Specialist'],
-    grades: ['9', '10', '11', '12'],
-    bio: 'Top scorer in national mathematics olympiad. Specialized in helping struggling students build confidence and strong foundations in mathematics.',
-    ratings: { intelligence: 5.0, punctuality: 4.8, communication: 4.9, loyalty: 4.9 },
-  },
-  {
-    id: '5',
-    name: 'Yonas Bekele',
-    initials: 'YB',
-    university: 'Jimma University - English',
-    subjects: ['English', 'History', 'Civics'],
-    rating: 4.6,
-    reviewCount: 21,
-    hourlyRate: 250,
-    location: 'Online Only',
-    isVerified: true,
-    specialization: 'IELTS/TOEFL',
-    grades: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'freshman'],
-    bio: 'IELTS Band 8.5 scorer offering comprehensive English language tutoring. Flexible online sessions for students anywhere in Ethiopia.',
-    ratings: { intelligence: 4.6, punctuality: 4.7, communication: 4.9, loyalty: 4.5 },
-  },
-  {
-    id: '6',
-    name: 'Meron Alemu',
-    initials: 'MA',
-    university: 'Mekelle University - Chemistry',
-    subjects: ['Chemistry', 'Biology', 'Mathematics'],
-    rating: 4.8,
-    reviewCount: 39,
-    hourlyRate: 300,
-    location: 'Mekelle',
-    isVerified: true,
-    grades: ['5', '6', '7', '8', '9', '10', '11', '12'],
-    bio: 'Chemistry graduate with a passion for making science fun and accessible. I use interactive experiments and demonstrations to help concepts stick.',
-    ratings: { intelligence: 4.8, punctuality: 4.9, communication: 4.8, loyalty: 4.7 },
-  },
-]
+import { createClient } from '@/lib/supabase/server'
 
 function TutorListSkeleton() {
   return (
@@ -131,7 +31,28 @@ function TutorListSkeleton() {
   )
 }
 
-export default function TutorsPage() {
+export default async function TutorsPage() {
+  const supabase = await createClient()
+  const { data: dbTutors } = await supabase.from('tutors').select('*').eq('status', 'open')
+
+  const tutors: Tutor[] = dbTutors ? dbTutors.map((t: any) => ({
+    id: t.id,
+    name: t.name,
+    initials: t.initials,
+    university: t.university,
+    subjects: t.subjects,
+    rating: t.rating || 0,
+    reviewCount: t.review_count || 0,
+    hourlyRate: t.hourly_rate,
+    location: t.location,
+    isVerified: t.is_verified,
+    specialization: t.specialization,
+    badges: t.badges || [],
+    grades: t.grades || [],
+    bio: t.bio,
+    ratings: t.ratings_json || { intelligence: 5, punctuality: 5, communication: 5, loyalty: 5 }
+  })) : []
+
   return (
     <div className="page-shell flex min-h-screen flex-col">
       <Header />
@@ -162,12 +83,12 @@ export default function TutorsPage() {
 
               <div className="mb-4 flex items-center justify-between">
                 <p className="text-sm text-muted-foreground">
-                  {sampleTutors.length} tutors found
+                  {tutors.length} tutors found
                 </p>
               </div>
 
               <Suspense fallback={<TutorListSkeleton />}>
-                <TutorList tutors={sampleTutors} />
+                <TutorList tutors={tutors} />
               </Suspense>
             </div>
           </div>

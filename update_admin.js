@@ -1,4 +1,8 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+const fs = require('fs');
+const path = require('path');
+
+const filePath = path.join(__dirname, 'app/admin/page.tsx');
+const newContent = `import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MessageSquare, ArrowRight, ClipboardList, Users } from 'lucide-react'
@@ -153,3 +157,7 @@ export default async function AdminDashboardPage() {
     </div>
   )
 }
+`;
+
+fs.writeFileSync(filePath, newContent, 'utf8');
+console.log('Successfully updated app/admin/page.tsx');
