@@ -1,87 +1,108 @@
--- Drop existing tables if they exist (for clean setup)
-DROP TABLE IF EXISTS telegram_logs CASCADE;
-DROP TABLE IF EXISTS tutor_applications CASCADE;
-DROP TABLE IF EXISTS parent_requests CASCADE;
-DROP TABLE IF EXISTS tutors CASCADE;
-
--- 1. Tutors Table
-CREATE TABLE tutors (
-  id UUID PRIMARY KEY REFERENCES auth.users(id),
-  full_name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  phone TEXT,
-  subjects TEXT[] DEFAULT '{}',
-  grade_levels TEXT[] DEFAULT '{}',
-  availability JSONB DEFAULT '{}'::jsonb,
-  experience TEXT,
-  is_verified BOOLEAN DEFAULT FALSE,
-  is_open_for_jobs BOOLEAN DEFAULT TRUE,
-  number_of_jobs_completed INTEGER DEFAULT 0,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+create extension if not exists pgcrypto;
+drop policy if exists "Tutors can view own profile" on tutors;
+drop policy if exists "Tutors can update own profile" on tutors;
+drop policy if exists "Anyone can insert a request" on parent_requests;
+drop policy if exists "Tutors can view own applications" on tutor_applications;
+drop policy if exists "Tutors can apply" on tutor_applications;
+drop table if exists telegram_logs cascade;
+drop table if exists tutor_applications cascade;
+drop table if exists parent_requests cascade;
+drop table if exists tutors cascade;
+create table tutors (
+  id uuid primary key references auth.users(id) on delete cascade,
+  full_name text not null,
+  email text,
+  phone text,
+  subjects text [] not null default '{}',
+  grade_levels text [] not null default '{}',
+  availability jsonb not null default '{}'::jsonb,
+  years_experience integer not null default 0,
+  experience text,
+  is_verified boolean not null default false,
+  is_open_for_jobs boolean not null default true,
+  number_of_jobs_completed integer not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
-
--- 2. Parent Requests Table (Jobs)
-CREATE TABLE parent_requests (
-  job_code TEXT PRIMARY KEY,
-  parent_name TEXT NOT NULL,
-  phone TEXT NOT NULL,
-  student_grade TEXT NOT NULL,
-  subject TEXT NOT NULL,
-  schedule TEXT,
-  location TEXT,
-  notes TEXT,
-  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'posted', 'completed')),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+create table parent_requests (
+  id uuid primary key default gen_random_uuid(),
+  job_code text not null unique,
+  parent_name text not null,
+  phone text not null,
+  student_name text,
+  student_grade text not null,
+  subject text not null,
+  schedule text,
+  location text,
+  notes text,
+  status text not null default 'pending' check (
+    status in (
+      'pending',
+      'approved',
+      'posted',
+      'completed',
+      'cancelled'
+    )
+  ),
+  approved_by uuid references auth.users(id),
+  selected_tutor_id uuid references tutors(id),
+  posted_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
-
--- 3. Tutor Applications Table
-CREATE TABLE tutor_applications (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  job_code TEXT REFERENCES parent_requests(job_code) ON DELETE CASCADE,
-  tutor_id UUID REFERENCES tutors(id) ON DELETE CASCADE,
-  status TEXT DEFAULT 'applied' CHECK (status IN ('applied', 'selected', 'rejected')),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(job_code, tutor_id) -- Prevent multiple applications to same job
+create table tutor_applications (
+  id uuid primary key default gen_random_uuid(),
+  job_code text not null references parent_requests(job_code) on delete cascade,
+  tutor_id uuid not null references tutors(id) on delete cascade,
+  status text not null default 'applied' check (status in ('applied', 'selected', 'rejected')),
+  created_at timestamptz not null default now(),
+  unique (job_code, tutor_id)
 );
-
--- 4. Telegram Logs Table
-CREATE TABLE telegram_logs (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  job_code TEXT REFERENCES parent_requests(job_code) ON DELETE CASCADE,
-  message_type TEXT NOT NULL CHECK (message_type IN ('bot_notification', 'channel_post', 'tutor_suggestion')),
-  telegram_message_id TEXT,
-  status TEXT DEFAULT 'success',
-  error_details TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+create table telegram_logs (
+  id uuid primary key default gen_random_uuid(),
+  job_code text references parent_requests(job_code) on delete
+  set null,
+    message_type text not null check (
+      message_type in (
+        'parent_request',
+        'channel_post',
+        'top3_shortlist'
+      )
+    ),
+    target_chat text not null,
+    payload text not null,
+    telegram_message_id text,
+    status text not null default 'success' check (status in ('success', 'failed')),
+    error_details text,
+    created_at timestamptz not null default now()
 );
-
--- Activate Row Level Security (RLS)
-ALTER TABLE tutors ENABLE ROW LEVEL SECURITY;
-ALTER TABLE parent_requests ENABLE ROW LEVEL SECURITY;
-ALTER TABLE tutor_applications ENABLE ROW LEVEL SECURITY;
-ALTER TABLE telegram_logs ENABLE ROW LEVEL SECURITY;
-
--- Setup Basic Policies
-
--- Tutors can read and update their own profile
-CREATE POLICY "Tutors can view own profile" ON tutors
-  FOR SELECT USING (auth.uid() = id);
-
-CREATE POLICY "Tutors can update own profile" ON tutors
-  FOR UPDATE USING (auth.uid() = id);
-
--- Public can insert parent requests safely (no auth needed)
-CREATE POLICY "Anyone can insert a request" ON parent_requests
-  FOR INSERT WITH CHECK (true);
-
--- Applications are readable by the tutor who made them
-CREATE POLICY "Tutors can view own applications" ON tutor_applications
-  FOR SELECT USING (auth.uid() = tutor_id);
-
--- Tutors can insert applications if they match their ID
-CREATE POLICY "Tutors can apply" ON tutor_applications
-  FOR INSERT WITH CHECK (auth.uid() = tutor_id);
-
--- NOTE: For ADMIN access (Superuser bypasses RLS if configured via service key, 
--- but if using standard JWTs, you'll want an admin check policy here). 
--- Example: CREATE POLICY "Admins full access" ON X USING ( (select role from auth.users where id = auth.uid()) = 'admin' );
+create index idx_parent_requests_status_created_at on parent_requests(status, created_at desc);
+create index idx_parent_requests_job_code on parent_requests(job_code);
+create index idx_tutor_applications_job_code on tutor_applications(job_code);
+create index idx_tutor_applications_tutor_id on tutor_applications(tutor_id);
+create index idx_tutors_verified_open on tutors(is_verified, is_open_for_jobs);
+alter table tutors enable row level security;
+alter table parent_requests enable row level security;
+alter table tutor_applications enable row level security;
+alter table telegram_logs enable row level security;
+create or replace function is_admin() returns boolean language sql stable as $$
+select coalesce(
+    (auth.jwt()->'app_metadata'->>'role') = 'admin'
+    or (auth.jwt()->'user_metadata'->>'is_admin')::boolean,
+    false
+  );
+$$;
+create policy "Tutors can view own profile" on tutors for
+select using (auth.uid() = id);
+create policy "Tutors can update own profile" on tutors for
+update using (auth.uid() = id) with check (auth.uid() = id);
+create policy "Admins full access tutors" on tutors for all using (is_admin()) with check (is_admin());
+create policy "Anyone can insert a request" on parent_requests for
+insert with check (true);
+create policy "Admins full access parent requests" on parent_requests for all using (is_admin()) with check (is_admin());
+create policy "Tutors can view own applications" on tutor_applications for
+select using (auth.uid() = tutor_id);
+create policy "Tutors can apply" on tutor_applications for
+insert with check (auth.uid() = tutor_id);
+create policy "Admins full access tutor applications" on tutor_applications for all using (is_admin()) with check (is_admin());
+create policy "Admins full access telegram logs" on telegram_logs for all using (is_admin()) with check (is_admin());
