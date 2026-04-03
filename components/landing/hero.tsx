@@ -23,7 +23,7 @@ const exampleImages = [
     title: "Mexico Square historic photo",
   },
   {
-    url: "https://www.facebook.com/WhereInAddis/posts/-new-age-buildings-in-addisphoto-by-mahlet_captures-location-mexico-addis-ababaw/1997769323687851/",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxvIAWVgyDHWmJV4VgIAzT3s7ZxxrtCV3YFQ&s",
     title: "Mexico Square modern buildings 1",
   },
   {
@@ -51,7 +51,7 @@ export function Hero() {
           <motion.img
             src={exampleImages[0].url}
             alt={exampleImages[0].title}
-            className="w-16 h-12 sm:w-24 sm:h-16 md:w-28 md:h-20 lg:w-32 lg:h-24 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform -rotate-[3deg] shadow-2xl rounded-xl"
+            className="w-16 h-12 sm:w-24 sm:h-16 md:w-28 md:h-20 lg:w-32 lg:h-24 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform -rotate-[3deg] shadow-2xl rounded-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
@@ -64,7 +64,7 @@ export function Hero() {
           <motion.img
             src={exampleImages[1].url}
             alt={exampleImages[1].title}
-            className="w-40 h-28 sm:w-48 sm:h-36 md:w-56 md:h-44 lg:w-60 lg:h-48 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform -rotate-12 shadow-2xl rounded-xl"
+            className="w-40 h-28 sm:w-48 sm:h-36 md:w-56 md:h-44 lg:w-60 lg:h-48 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform -rotate-12 shadow-2xl rounded-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
@@ -77,7 +77,7 @@ export function Hero() {
           <motion.img
             src={exampleImages[2].url}
             alt={exampleImages[2].title}
-            className="w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 lg:w-64 lg:h-64 object-cover -rotate-[4deg] hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rounded-xl"
+            className="w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 lg:w-64 lg:h-64 object-cover -rotate-[4deg] hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rounded-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9 }}
@@ -90,7 +90,7 @@ export function Hero() {
           <motion.img
             src={exampleImages[3].url}
             alt={exampleImages[3].title}
-            className="w-40 h-36 sm:w-48 sm:h-44 md:w-60 md:h-52 lg:w-64 lg:h-56 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[6deg] rounded-xl"
+            className="w-40 h-36 sm:w-48 sm:h-44 md:w-60 md:h-52 lg:w-64 lg:h-56 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[6deg] rounded-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.1 }}
@@ -103,7 +103,7 @@ export function Hero() {
           <motion.img
             src={exampleImages[4].url}
             alt={exampleImages[4].title}
-            className="w-44 h-44 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[19deg] rounded-xl"
+            className="w-44 h-44 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform shadow-2xl rotate-[19deg] rounded-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.3 }}
@@ -138,7 +138,7 @@ export function Hero() {
                   "everything",
                   "your child"
                 ]}
-                mainClassName="overflow-hidden pr-3 text-primary py-0 pb-2 md:pb-4 rounded-xl"
+                mainClassName="overflow-hidden pr-3 text-primary py-0 pb-2 md:pb-4 rounded-sm"
                 staggerDuration={0.03}
                 staggerFrom="last"
                 rotationInterval={3000}
@@ -157,7 +157,7 @@ export function Hero() {
         </motion.p>
         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 items-center mt-10 sm:mt-16 md:mt-20 lg:mt-20">
           <motion.button
-            className="sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight text-primary-foreground bg-primary px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 rounded-full z-20 shadow-xl"
+            className="sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight text-primary-foreground bg-primary px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 rounded-sm z-20 shadow-xl"
             animate={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: 20 }}
             transition={{
@@ -172,11 +172,11 @@ export function Hero() {
             }}
           >
             <Link href="/tutors" className="flex items-center">
-              Find a Tutor <span className="ml-2 font-serif text-xl border border-primary-foreground/30 px-2 rounded-full leading-none">→</span>
+              Find a Tutor <span className="ml-2 font-serif text-xl border border-primary-foreground/30 px-2 rounded-sm leading-none">→</span>
             </Link>
           </motion.button>
           <motion.button
-            className="sm:text-base md:text-lg lg:text-xl font-medium tracking-tight bg-muted/80 backdrop-blur-sm text-foreground hover:bg-muted border border-border px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 rounded-full z-20 shadow-sm"
+            className="sm:text-base md:text-lg lg:text-xl font-medium tracking-tight bg-muted/80 backdrop-blur-sm text-foreground hover:bg-muted border border-border px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-3 rounded-sm z-20 shadow-sm"
             animate={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: 20 }}
             transition={{

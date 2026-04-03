@@ -114,7 +114,7 @@ export default async function TutorApplyPage({ params }: { params: Promise<{ job
                 </div>
                 <div className="md:col-span-2">
                    <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-1">Additional Notes</h3>
-                   <p className="text-slate-700 dark:text-slate-300 rounded-md bg-slate-50 dark:bg-slate-800 p-4 whitespace-pre-wrap">
+                   <p className="rounded-sm bg-slate-50 p-4 whitespace-pre-wrap text-slate-700 dark:bg-slate-800 dark:text-slate-300">
                      {job.notes || 'No additional notes provided.'}
                    </p>
                 </div>

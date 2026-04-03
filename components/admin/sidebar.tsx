@@ -70,7 +70,7 @@ export function AdminSidebar() {
   return (
     <div className="flex h-screen w-64 flex-col border-r border-border bg-card">
       <div className="flex h-16 items-center gap-2 border-b border-border px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+        <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-primary">
           <GraduationCap className="h-4 w-4 text-primary-foreground" />
         </div>
         <span className="font-bold">አጋዤ Admin</span>

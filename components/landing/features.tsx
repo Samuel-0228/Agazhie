@@ -70,7 +70,7 @@ export function Features() {
           {features.map((feature) => (
             <div
               key={feature.number}
-              className="group relative flex flex-col gap-5 overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
+              className="group relative flex flex-col gap-5 overflow-hidden rounded-sm border border-border bg-card p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
             >
               {/* Number watermark */}
               <span className="absolute right-5 top-4 text-6xl font-black text-border/60 select-none transition-colors group-hover:text-primary/10">
@@ -78,7 +78,7 @@ export function Features() {
               </span>
 
               {/* Icon */}
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/15">
+              <div className="relative flex h-12 w-12 items-center justify-center rounded-sm bg-primary/10 transition-colors group-hover:bg-primary/15">
                 <feature.icon className="h-5 w-5 text-primary" />
               </div>
 

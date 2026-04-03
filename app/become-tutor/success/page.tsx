@@ -14,7 +14,7 @@ export default function TutorSuccessPage() {
           <Card>
             <CardContent className="pt-8 pb-8">
               <div className="mb-6 flex justify-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-primary/10">
                   <CheckCircle2 className="h-8 w-8 text-primary" />
                 </div>
               </div>
@@ -25,7 +25,7 @@ export default function TutorSuccessPage() {
                 Our team will review your application and get back to you within 48 hours.
               </p>
 
-              <div className="mt-6 rounded-lg bg-muted/50 p-4 text-left">
+              <div className="mt-6 rounded-sm bg-muted/50 p-4 text-left">
                 <h3 className="font-medium">Next Steps</h3>
                 <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
                   <li>1. Application review (1-2 days)</li>

@@ -157,7 +157,7 @@ function RequestFormContent() {
       <div className="mx-auto max-w-2xl">
         <Card>
           <CardHeader className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-sm bg-primary/10">
               <CheckCircle2 className="h-8 w-8 text-primary" />
             </div>
             <CardTitle className="text-2xl">Request Ready!</CardTitle>
@@ -167,7 +167,7 @@ function RequestFormContent() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-6">
-            <div className="rounded-lg border border-border bg-muted/50 p-4">
+            <div className="rounded-sm border border-border bg-muted/50 p-4">
               <p className="mb-2 text-sm font-medium text-muted-foreground">Preview message:</p>
               <pre className="whitespace-pre-wrap text-sm leading-relaxed">
                 {decodeURIComponent(telegramUrl.split('?text=')[1] || '')}
@@ -189,7 +189,7 @@ function RequestFormContent() {
               </p>
             </div>
 
-            <div className="rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 p-4">
+            <div className="rounded-sm border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-950/30">
               <h3 className="font-medium text-sm text-blue-900 dark:text-blue-200">What happens next?</h3>
               <ol className="mt-2 space-y-1 text-sm text-blue-800 dark:text-blue-300 list-decimal list-inside">
                 <li>Telegram opens with your pre-filled request message</li>
@@ -225,7 +225,7 @@ function RequestFormContent() {
           {[1, 2, 3].map((s) => (
             <div key={s} className="flex items-center">
               <div
-                className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-medium ${
+                className={`flex h-10 w-10 items-center justify-center rounded-sm text-sm font-medium ${
                   step >= s
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-muted text-muted-foreground'

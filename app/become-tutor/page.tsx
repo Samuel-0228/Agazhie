@@ -234,7 +234,7 @@ export default function BecomeTutorPage() {
                 {benefits.map((benefit) => (
                   <Card key={benefit.title} className="text-center">
                     <CardContent className="pt-6">
-                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-sm bg-primary/10">
                         <benefit.icon className="h-6 w-6 text-primary" />
                       </div>
                       <h3 className="mt-4 font-semibold">{benefit.title}</h3>
@@ -253,7 +253,7 @@ export default function BecomeTutorPage() {
                 <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
                   Requirements
                 </h2>
-                <div className="mt-8 rounded-lg bg-card p-6">
+                <div className="mt-8 rounded-sm bg-card p-6">
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
                       <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
@@ -306,7 +306,7 @@ export default function BecomeTutorPage() {
               {[1, 2, 3, 4].map((s) => (
                 <div key={s} className="flex items-center">
                   <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-medium ${
+                    className={`flex h-10 w-10 items-center justify-center rounded-sm text-sm font-medium ${
                       step >= s
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted text-muted-foreground'
@@ -549,7 +549,7 @@ export default function BecomeTutorPage() {
                     </Field>
 
                     {/* Mandatory Document Uploads */}
-                    <div className="rounded-lg border border-border bg-muted/30 p-4">
+                    <div className="rounded-sm border border-border bg-muted/30 p-4">
                       <h3 className="mb-3 flex items-center gap-2 font-medium">
                         <Upload className="h-4 w-4 text-primary" />
                         Required Documents
@@ -562,7 +562,7 @@ export default function BecomeTutorPage() {
                           <div className="flex items-center gap-3">
                             <label
                               htmlFor="grade12Transcript"
-                              className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-border px-4 py-2.5 text-sm text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                              className="flex cursor-pointer items-center gap-2 rounded-sm border border-dashed border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary"
                             >
                               <Upload className="h-4 w-4" />
                               {grade12Transcript ? grade12Transcript.name : 'Choose file (PDF/Image)'}
@@ -592,7 +592,7 @@ export default function BecomeTutorPage() {
                           <div className="flex items-center gap-3">
                             <label
                               htmlFor="eueeResult"
-                              className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-border px-4 py-2.5 text-sm text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                              className="flex cursor-pointer items-center gap-2 rounded-sm border border-dashed border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary"
                             >
                               <Upload className="h-4 w-4" />
                               {eueeResult ? eueeResult.name : 'Choose file (PDF/Image)'}
@@ -619,7 +619,7 @@ export default function BecomeTutorPage() {
                     </div>
 
                     {/* Optional Badge Application */}
-                    <div className="rounded-lg border border-border bg-muted/30 p-4">
+                    <div className="rounded-sm border border-border bg-muted/30 p-4">
                       <div className="flex items-center justify-between">
                         <h3 className="flex items-center gap-2 font-medium">
                           <Award className="h-4 w-4 text-amber-500" />
@@ -645,7 +645,7 @@ export default function BecomeTutorPage() {
                             Add one or more badges and upload supporting documents for each. Only admin-approved badges will appear on your profile.
                           </p>
                           {badgeApplications.map((app, index) => (
-                            <div key={index} className="rounded-md border border-border bg-background p-3">
+                            <div key={index} className="rounded-sm border border-border bg-background p-3">
                               <div className="flex items-start justify-between gap-3">
                                 <div className="flex flex-1 flex-col gap-3">
                                   <div>
@@ -653,7 +653,7 @@ export default function BecomeTutorPage() {
                                     <select
                                       value={app.badgeType}
                                       onChange={(e) => updateBadgeApplication(index, 'badgeType', e.target.value)}
-                                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                                      className="w-full rounded-sm border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                                     >
                                       <option value="">Select badge type</option>
                                       {badgeOptions.map((opt) => (
@@ -671,7 +671,7 @@ export default function BecomeTutorPage() {
                                     <div className="flex items-center gap-2">
                                       <label
                                         htmlFor={`badge-doc-${index}`}
-                                        className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-border px-3 py-2 text-xs text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                                        className="flex cursor-pointer items-center gap-2 rounded-sm border border-dashed border-border px-3 py-2 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
                                       >
                                         <Upload className="h-3 w-3" />
                                         {app.file ? app.file.name : 'Upload proof (PDF/Image)'}

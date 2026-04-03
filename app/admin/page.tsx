@@ -35,7 +35,7 @@ export default async function AdminDashboardPage() {
                 <p className="text-sm text-muted-foreground">Total Requests</p>
                 <p className="text-3xl font-bold">{recentRequests?.length || 0}</p>
               </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+              <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-primary/10">
                 <MessageSquare className="h-6 w-6 text-primary" />
               </div>
             </div>
@@ -48,7 +48,7 @@ export default async function AdminDashboardPage() {
                 <p className="text-sm text-muted-foreground">Pending Requests</p>
                 <p className="text-3xl font-bold text-amber-500">{pendingCount}</p>
               </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10">
+              <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-amber-500/10">
                 <ClipboardList className="h-6 w-6 text-amber-500" />
               </div>
             </div>
@@ -71,7 +71,7 @@ export default async function AdminDashboardPage() {
             ) : recentRequests && recentRequests.length > 0 ? (
               <div className="flex flex-col gap-4">
                 {recentRequests.map((req) => (
-                  <div key={req.job_code} className="flex items-center justify-between rounded-lg border border-border p-4">
+                  <div key={req.job_code} className="flex items-center justify-between rounded-sm border border-border p-4">
                     <div className="flex-1 min-w-0">
                       <p className="font-bold flex items-center gap-2">
                         {req.job_code}

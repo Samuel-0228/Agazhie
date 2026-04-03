@@ -32,7 +32,7 @@
   --chart-3: oklch(0.6 0.12 200);
   --chart-4: oklch(0.7 0.15 30);
   --chart-5: oklch(0.65 0.16 280);
-  --radius: 0.875rem;
+  --radius: 0.2rem;
   --sidebar: oklch(0.978 0.006 75);
   --sidebar-foreground: oklch(0.13 0.012 60);
   --sidebar-primary: oklch(0.44 0.155 145);
@@ -125,6 +125,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-200;
   }
 }

@@ -146,7 +146,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ job_
               {job.applications && job.applications.length > 0 ? (
                 <div className="space-y-4">
                   {job.applications.map((app: any) => (
-                     <div key={app.id} className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg ${app.status === 'selected' ? 'bg-green-50/50 border-green-200' : ''}`}>
+                     <div key={app.id} className={`flex flex-col justify-between border p-4 sm:flex-row sm:items-center rounded-sm ${app.status === 'selected' ? 'bg-green-50/50 border-green-200' : ''}`}>
                        <div>
                          <p className="font-semibold">{app.tutor?.full_name}</p>
                          <p className="text-sm text-muted-foreground">{app.tutor?.phone} • {app.tutor?.email}</p>

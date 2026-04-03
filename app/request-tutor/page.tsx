@@ -133,7 +133,7 @@ function RequestFormContent() {
       <div className="mx-auto max-w-2xl">
         <Card className="border-green-200">
           <CardHeader className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-sm bg-green-100 dark:bg-green-900">
               <CheckCircle2 className="h-10 w-10 text-green-600 dark:text-green-400" />
             </div>
             <CardTitle className="text-2xl text-green-700 dark:text-green-400">Request Successfully Received!</CardTitle>
@@ -143,7 +143,7 @@ function RequestFormContent() {
               Your request has been successfully recieved. We will review and contact you on your provided telegram account shortly.
             </p>
             
-            <div className="rounded-lg bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 p-6 flex flex-col items-center">
+            <div className="flex flex-col items-center rounded-sm border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/30">
               <p className="mb-4 text-sm font-semibold text-blue-900 dark:text-blue-100">
                 If you want a very fast response, click the button below to send this request to the Telegram bot:
               </p>
@@ -180,7 +180,7 @@ function RequestFormContent() {
           {[1, 2, 3].map((s) => (
             <div key={s} className="flex items-center">
               <div
-                className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-medium ${
+                className={`flex h-10 w-10 items-center justify-center rounded-sm text-sm font-medium ${
                   step >= s
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-muted text-muted-foreground'

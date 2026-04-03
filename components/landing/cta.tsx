@@ -6,13 +6,13 @@ export function CTA() {
   return (
     <section className="py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl bg-primary px-8 py-14 text-center sm:px-14 sm:py-20">
+        <div className="relative overflow-hidden rounded-sm bg-primary px-8 py-14 text-center sm:px-14 sm:py-20">
           {/* Background decoration */}
-          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary-foreground/5 blur-2xl" />
-          <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-primary-foreground/5 blur-2xl" />
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rotate-12 bg-primary-foreground/5 blur-2xl" />
+          <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 -rotate-12 bg-primary-foreground/5 blur-2xl" />
 
           {/* Icon */}
-          <div className="relative mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-foreground/15 ring-1 ring-primary-foreground/25">
+          <div className="relative mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-sm bg-primary-foreground/15 ring-1 ring-primary-foreground/25">
             <GraduationCap className="h-7 w-7 text-primary-foreground" />
           </div>
 
@@ -32,7 +32,7 @@ export function CTA() {
             <Button
               size="lg"
               asChild
-              className="rounded-full bg-primary-foreground text-primary px-8 text-base font-semibold shadow-lg hover:bg-primary-foreground/90"
+              className="rounded-sm bg-primary-foreground px-8 text-base font-semibold text-primary shadow-lg hover:bg-primary-foreground/90"
             >
               <Link href="/tutors">
                 Browse Tutors
@@ -43,7 +43,7 @@ export function CTA() {
               size="lg"
               variant="outline"
               asChild
-              className="rounded-full border-primary-foreground/30 bg-transparent px-8 text-base font-medium text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              className="rounded-sm border-primary-foreground/30 bg-transparent px-8 text-base font-medium text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
               <Link href="/become-tutor">Become a Tutor</Link>
             </Button>

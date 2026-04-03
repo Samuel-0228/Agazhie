@@ -26,7 +26,7 @@ export function HowItWorks() {
     <section className="py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Warm tinted container */}
-        <div className="overflow-hidden rounded-3xl bg-foreground px-6 py-14 sm:px-10 sm:py-16 lg:px-16">
+        <div className="overflow-hidden rounded-sm bg-foreground px-6 py-14 sm:px-10 sm:py-16 lg:px-16">
           {/* Section header */}
           <div className="mb-12 text-center">
             <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-primary-foreground/60">

@@ -47,7 +47,7 @@ export function Testimonials() {
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.name}
-              className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+              className="flex flex-col gap-5 rounded-sm border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
             >
               {/* Quote icon */}
               <Quote className="h-7 w-7 text-primary/30" aria-hidden="true" />

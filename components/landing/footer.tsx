@@ -30,7 +30,7 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2.5 group">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-sm transition-transform group-hover:scale-105">
+              <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-primary shadow-sm transition-transform group-hover:scale-105">
                 <GraduationCap className="h-5 w-5 text-primary-foreground" />
               </div>
               <span className="text-xl font-bold tracking-tight text-primary-foreground">Goongoon</span>

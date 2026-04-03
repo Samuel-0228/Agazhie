@@ -111,7 +111,7 @@ function TutorListSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="rounded-lg border border-border bg-card p-6">
+        <div key={i} className="rounded-sm border border-border bg-card p-6">
           <div className="flex gap-4">
             <Skeleton className="h-16 w-16 rounded-full" />
             <div className="flex-1 space-y-2">
