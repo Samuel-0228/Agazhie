@@ -133,14 +133,16 @@ function TutorListSkeleton() {
 
 export default function TutorsPage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="page-shell flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 py-8">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold tracking-tight">Find Tutors</h1>
-            <p className="mt-2 text-muted-foreground">
-              Browse our verified tutors and find the perfect match for your child.
+      <main className="flex-1 pt-32 pb-16">
+        <div className="page-section">
+          <div className="glass-panel mb-8 rounded-[2rem] p-8 md:p-10">
+            <h1 className="text-4xl tracking-tight text-foreground sm:text-5xl" style={{ fontFamily: "'Instrument Serif', serif" }}>
+              Find the right tutor for your child.
+            </h1>
+            <p className="mt-3 max-w-2xl text-muted-foreground">
+              Browse verified tutors across Ethiopia, compare strengths, and choose someone who matches your subject, schedule, and learning goals.
             </p>
           </div>
 

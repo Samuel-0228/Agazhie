@@ -4,10 +4,10 @@ import Link from 'next/link'
 
 const navLinks = [
   { label: 'Home', href: '/', active: true },
-  { label: 'Studio', href: '/studio' },
-  { label: 'About', href: '/about' },
-  { label: 'Journal', href: '/journal' },
-  { label: 'Reach Us', href: '/contact' },
+  { label: 'Tutors', href: '/tutors' },
+  { label: 'Become a Tutor', href: '/become-tutor' },
+  { label: 'Request Help', href: '/request' },
+  { label: 'Reach Us', href: '/request' },
 ]
 
 export function Header() {
@@ -19,7 +19,7 @@ export function Header() {
           className="text-3xl tracking-tight text-foreground"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
-          Velorah<sup className="text-xs">&reg;</sup>
+          Agazhie
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -39,10 +39,10 @@ export function Header() {
         </nav>
 
         <Link
-          href="/contact"
+          href="/request"
           className="liquid-glass inline-flex rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
         >
-          <span className="relative z-10">Begin Journey</span>
+          <span className="relative z-10">Request a Tutor</span>
         </Link>
       </div>
     </header>

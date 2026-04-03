@@ -5,7 +5,7 @@ const testimonials = [
   {
     name: 'Tigist Haile',
     role: 'Parent of 11th grader',
-    content: "My daughter's grades improved dramatically after finding her tutor through Goongoon. The tutor was patient, knowledgeable, and really understood how to explain difficult concepts.",
+    content: "My daughter's grades improved dramatically after finding her tutor through Agazhie. The tutor was patient, knowledgeable, and really understood how to explain difficult concepts.",
     rating: 5,
     initials: 'TH',
   },
@@ -38,7 +38,7 @@ export function Testimonials() {
             Loved by parents across Ethiopia
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-lg text-muted-foreground">
-            See what families are saying about their experience with Goongoon.
+            See what families are saying about their experience with Agazhie.
           </p>
         </div>
 

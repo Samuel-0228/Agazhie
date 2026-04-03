@@ -7,11 +7,11 @@ import { CheckCircle2, Home, Mail } from 'lucide-react'
 
 export default function TutorSuccessPage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="page-shell flex min-h-screen flex-col">
       <Header />
       <main className="flex flex-1 items-center justify-center py-12">
         <div className="mx-auto max-w-md px-4 text-center">
-          <Card>
+          <Card className="glass-panel border-white/10 bg-white/5">
             <CardContent className="pt-8 pb-8">
               <div className="mb-6 flex justify-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-primary/10">
@@ -21,7 +21,7 @@ export default function TutorSuccessPage() {
               
               <h1 className="text-2xl font-bold">Application Received!</h1>
               <p className="mt-3 text-muted-foreground">
-                Thank you for applying to become a tutor with አጋዤ. 
+                Thank you for applying to become a tutor with Agazhie. 
                 Our team will review your application and get back to you within 48 hours.
               </p>
 

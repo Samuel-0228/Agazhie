@@ -287,7 +287,7 @@ export function TutorFilters({ className }: TutorFiltersProps) {
         <Button type="submit">Search</Button>
       </form>
 
-      <div className="mt-6 hidden lg:block">
+      <div className="glass-panel mt-6 hidden rounded-[1.5rem] p-5 lg:block">
         <h3 className="mb-4 font-semibold">Filters</h3>
         <FilterContent />
       </div>

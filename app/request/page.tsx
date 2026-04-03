@@ -88,12 +88,12 @@ function buildTelegramMessage(data: {
   preferredTutor: string
 }) {
   const lines = [
-    `Hi አጋዤ, I'm looking for a tutor:`,
+    `Hi Agazhie, I'm looking for a tutor:`,
     `Subject: ${data.selectedSubjects.join(', ')}`,
     `Grade: ${gradeLabel(data.gradeLevel)}`,
     `Budget: ${data.budget} ETB/hr`,
     `Payment: ${data.paymentDuration}`,
-    `Schedule: ${data.sessionType} — ${data.frequency} session(s)/week`,
+    `Schedule: ${data.sessionType} - ${data.frequency} session(s)/week`,
   ]
   if (data.preferredTutor) lines.push(`Preferred Tutor: ${data.preferredTutor}`)
   if (data.location) lines.push(`Location: ${data.location}`)
@@ -155,7 +155,7 @@ function RequestFormContent() {
   if (submitted && telegramUrl) {
     return (
       <div className="mx-auto max-w-2xl">
-        <Card>
+        <Card className="glass-panel border-white/10 bg-white/5">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-sm bg-primary/10">
               <CheckCircle2 className="h-8 w-8 text-primary" />
@@ -481,14 +481,16 @@ function RequestFormContent() {
 
 export default function RequestPage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="page-shell flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 py-8">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold tracking-tight">Request a Tutor</h1>
-            <p className="mt-2 text-muted-foreground">
-              Fill out this form and connect with the admin via Telegram to get matched with the best tutor.
+      <main className="flex-1 pt-32 pb-16">
+        <div className="page-section">
+          <div className="mx-auto mb-8 max-w-3xl text-center">
+            <h1 className="text-4xl tracking-tight text-foreground sm:text-5xl" style={{ fontFamily: "'Instrument Serif', serif" }}>
+              Request a tutor with confidence.
+            </h1>
+            <p className="mt-3 text-muted-foreground">
+              Share your child&apos;s needs and we&apos;ll help match you with a qualified tutor through Agazhie.
             </p>
           </div>
           <Suspense fallback={<div className="flex justify-center py-8">Loading...</div>}>

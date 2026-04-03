@@ -199,23 +199,22 @@ export default function BecomeTutorPage() {
 
   if (step === 0) {
     return (
-      <div className="flex min-h-screen flex-col">
+      <div className="page-shell flex min-h-screen flex-col">
         <Header />
         <main className="flex-1">
           {/* Hero Section */}
-          <section className="bg-gradient-to-b from-primary/5 to-background py-16 sm:py-24">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <section className="pt-32 pb-16 sm:pb-24">
+            <div className="page-section">
               <div className="mx-auto max-w-3xl text-center">
-                <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl">
-                  Share your knowledge,{' '}
-                  <span className="text-primary">earn while you learn</span>
+                <h1 className="text-balance text-4xl tracking-tight text-foreground sm:text-5xl" style={{ fontFamily: "'Instrument Serif', serif" }}>
+                  Help students grow while building your tutoring profile.
                 </h1>
                 <p className="mt-6 text-pretty text-lg text-muted-foreground">
                   Join አጋዤ as a tutor and help students across Ethiopia achieve their academic goals 
                   while earning extra income on your own schedule.
                 </p>
                 <div className="mt-8">
-                  <Button size="lg" onClick={() => setStep(1)} className="text-base">
+                  <Button size="lg" onClick={() => setStep(1)} className="liquid-glass border-0 text-base text-foreground">
                     Start Your Application
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -227,14 +226,14 @@ export default function BecomeTutorPage() {
           {/* Benefits Section */}
           <section className="py-16">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
-                Why tutor with አጋዤ?
+              <h2 className="text-center text-2xl tracking-tight sm:text-3xl" style={{ fontFamily: "'Instrument Serif', serif" }}>
+                Why tutor with Agazhie?
               </h2>
               <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {benefits.map((benefit) => (
-                  <Card key={benefit.title} className="text-center">
+                  <Card key={benefit.title} className="glass-panel border-white/10 bg-white/5 text-center">
                     <CardContent className="pt-6">
-                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-sm bg-primary/10">
+                      <div className="glass-panel mx-auto flex h-12 w-12 items-center justify-center rounded-full">
                         <benefit.icon className="h-6 w-6 text-primary" />
                       </div>
                       <h3 className="mt-4 font-semibold">{benefit.title}</h3>
@@ -250,10 +249,10 @@ export default function BecomeTutorPage() {
           <section className="bg-muted/50 py-16">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="mx-auto max-w-2xl">
-                <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
+                <h2 className="text-center text-2xl tracking-tight sm:text-3xl" style={{ fontFamily: "'Instrument Serif', serif" }}>
                   Requirements
                 </h2>
-                <div className="mt-8 rounded-sm bg-card p-6">
+                <div className="glass-panel mt-8 rounded-[1.75rem] p-6">
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
                       <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
@@ -274,7 +273,7 @@ export default function BecomeTutorPage() {
                   </ul>
                 </div>
                 <div className="mt-8 text-center">
-                  <Button size="lg" onClick={() => setStep(1)}>
+                  <Button size="lg" onClick={() => setStep(1)} className="liquid-glass border-0 text-foreground">
                     Apply Now
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -289,12 +288,12 @@ export default function BecomeTutorPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+      <div className="page-shell flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 py-8">
+      <main className="flex-1 pt-32 pb-16">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold tracking-tight">Tutor Application</h1>
+            <h1 className="text-3xl tracking-tight" style={{ fontFamily: "'Instrument Serif', serif" }}>Tutor Application</h1>
             <p className="mt-2 text-muted-foreground">
               Complete your application to become a verified tutor.
             </p>
@@ -332,7 +331,7 @@ export default function BecomeTutorPage() {
             </div>
           </div>
 
-          <Card>
+          <Card className="glass-panel border-white/10 bg-white/5">
             <CardHeader>
               <CardTitle>
                 {step === 1 && 'Contact Information'}

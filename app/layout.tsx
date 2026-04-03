@@ -24,9 +24,9 @@ const notoEthiopic = Noto_Sans_Ethiopic({
 })
 
 export const metadata: Metadata = {
-  title: 'Velorah',
-  description: 'A cinematic digital studio crafting focused tools for deep thinkers, bold creators, and quiet rebels.',
-  keywords: ['Velorah', 'studio', 'digital design', 'creative tools', 'cinematic landing page'],
+  title: 'Agazhie | Find the Right Tutor Across Ethiopia',
+  description: 'Agazhie connects families with verified university tutors across Ethiopia for focused, trusted learning support.',
+  keywords: ['Agazhie', 'tutors', 'Ethiopia', 'education', 'EUEE', 'SAT', 'learning support'],
 }
 
 export default function RootLayout({

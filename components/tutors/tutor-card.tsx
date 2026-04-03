@@ -52,12 +52,12 @@ function RatingBar({ label, value, icon: Icon }: { label: string; value: number;
 
 export function TutorCard({ tutor }: TutorCardProps) {
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-md">
+    <Card className="glass-panel overflow-hidden border-white/10 bg-white/5 transition-all hover:border-white/20 hover:shadow-2xl hover:shadow-black/20">
       <CardContent className="p-0">
         <div className="flex flex-col sm:flex-row">
           <div className="flex items-start gap-4 p-4 sm:p-6 flex-1">
             <Avatar className="h-16 w-16 shrink-0">
-              <AvatarFallback className="bg-primary/10 text-primary text-lg font-semibold">
+              <AvatarFallback className="glass-panel text-foreground text-lg font-semibold">
                 {tutor.initials}
               </AvatarFallback>
             </Avatar>
@@ -76,12 +76,12 @@ export function TutorCard({ tutor }: TutorCardProps) {
               <p className="text-sm text-muted-foreground truncate">{tutor.university}</p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {tutor.specialization && (
-                  <Badge className="bg-accent text-accent-foreground">
+                  <Badge className="bg-white text-black">
                     {tutor.specialization}
                   </Badge>
                 )}
                 {tutor.badges?.map((badge) => (
-                  <Badge key={badge} variant="default" className="bg-amber-500 text-white">
+                  <Badge key={badge} variant="default" className="bg-white/15 text-foreground">
                     {badge}
                   </Badge>
                 ))}
@@ -107,7 +107,7 @@ export function TutorCard({ tutor }: TutorCardProps) {
               )}
             </div>
           </div>
-          <div className="flex flex-row items-center justify-between gap-4 border-t border-border bg-muted/30 p-4 sm:flex-col sm:items-end sm:justify-center sm:border-l sm:border-t-0 sm:p-6 sm:min-w-[160px]">
+          <div className="flex flex-row items-center justify-between gap-4 border-t border-white/10 bg-black/10 p-4 sm:min-w-[160px] sm:flex-col sm:items-end sm:justify-center sm:border-l sm:border-t-0 sm:p-6">
             <div className="flex items-center gap-1">
               <Star className="h-4 w-4 fill-accent text-accent" />
               <span className="font-medium">{tutor.rating.toFixed(1)}</span>

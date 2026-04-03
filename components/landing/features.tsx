@@ -54,7 +54,7 @@ export function Features() {
         <div className="mb-14 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-primary">
-              Why Goongoon
+              Why Agazhie
             </p>
             <h2 className="text-balance text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
               Everything you need to find the right tutor

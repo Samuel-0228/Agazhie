@@ -22,20 +22,20 @@ export function Hero() {
           className="animate-fade-rise max-w-7xl text-5xl leading-[0.95] tracking-[-2.46px] text-foreground sm:text-7xl md:text-8xl"
           style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400 }}
         >
-          Where <em className="not-italic text-muted-foreground">dreams</em> rise{' '}
-          <em className="not-italic text-muted-foreground">through the silence.</em>
+          Find <em className="not-italic text-muted-foreground">trusted tutors</em> for{' '}
+          <em className="not-italic text-muted-foreground">focused learning at home.</em>
         </h1>
 
         <p className="animate-fade-rise-delay mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          We&apos;re designing tools for deep thinkers, bold creators, and quiet rebels.
-          Amid the chaos, we build digital spaces for sharp focus and inspired work.
+          Agazhie connects families with verified university students and graduates across Ethiopia.
+          From daily school support to EUEE and SAT preparation, we help you find the right tutor with clarity and confidence.
         </p>
 
         <Link
-          href="/contact"
+          href="/request"
           className="liquid-glass animate-fade-rise-delay-2 mt-12 inline-flex cursor-pointer rounded-full px-14 py-5 text-base text-foreground transition-transform hover:scale-[1.03]"
         >
-          <span className="relative z-10">Begin Journey</span>
+          <span className="relative z-10">Request a Tutor</span>
         </Link>
       </div>
     </section>

@@ -22,7 +22,7 @@ export function CTA() {
               Ready to help your child succeed?
             </h2>
             <p className="mx-auto mt-5 max-w-lg text-pretty text-lg text-primary-foreground/75">
-              Join hundreds of families who have found the perfect tutor through Goongoon.
+              Join families across Ethiopia who have found the right tutor through Agazhie.
               Start your search today — it&apos;s free to browse.
             </p>
           </div>
