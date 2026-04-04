@@ -8,13 +8,8 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   GraduationCap,
   LayoutDashboard,
-  Users,
-  UserCheck,
   MessageSquare,
-  Settings,
   LogOut,
-  ClipboardList,
-  Award,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -26,34 +21,9 @@ const navItems = [
     icon: LayoutDashboard,
   },
   {
-    title: 'Tutor Applications',
-    href: '/admin/applications',
-    icon: ClipboardList,
-  },
-  {
-    title: 'Badge Applications',
-    href: '/admin/badges',
-    icon: Award,
-  },
-  {
-    title: 'Tutors',
-    href: '/admin/tutors',
-    icon: UserCheck,
-  },
-  {
     title: 'Parent Requests',
     href: '/admin/requests',
     icon: MessageSquare,
-  },
-  {
-    title: 'Users',
-    href: '/admin/users',
-    icon: Users,
-  },
-  {
-    title: 'Settings',
-    href: '/admin/settings',
-    icon: Settings,
   },
 ]
 

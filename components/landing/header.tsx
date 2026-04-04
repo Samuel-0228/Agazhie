@@ -4,10 +4,8 @@ import Link from 'next/link'
 
 const navLinks = [
   { label: 'Home', href: '/', active: true },
-  { label: 'Tutors', href: '/tutors' },
-  { label: 'Become a Tutor', href: '/become-tutor' },
-  { label: 'Request Help', href: '/request' },
-  { label: 'Reach Us', href: '/request' },
+  { label: 'Request a Tutor', href: '/request-tutor' },
+  { label: 'Admin', href: '/admin' },
 ]
 
 export function Header() {
@@ -39,7 +37,7 @@ export function Header() {
         </nav>
 
         <Link
-          href="/request"
+          href="/request-tutor"
           className="liquid-glass inline-flex rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
         >
           <span className="relative z-10">Request a Tutor</span>

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, GraduationCap } from 'lucide-react'
+import { ArrowRight, MessageSquare } from 'lucide-react'
 
 export function CTA() {
   return (
@@ -19,11 +19,10 @@ export function CTA() {
           {/* Heading */}
           <div className="relative mx-auto max-w-2xl">
             <h2 className="text-balance text-3xl font-extrabold tracking-tight text-primary-foreground sm:text-4xl lg:text-5xl">
-              Ready to help your child succeed?
+              Ready to request a tutor?
             </h2>
             <p className="mx-auto mt-5 max-w-lg text-pretty text-lg text-primary-foreground/75">
-              Join families across Ethiopia who have found the right tutor through Agazhie.
-              Start your search today — it&apos;s free to browse.
+              Submit your request, get matched by the admin team, and receive the right support faster.
             </p>
           </div>
 
@@ -34,19 +33,15 @@ export function CTA() {
               asChild
               className="rounded-sm bg-primary-foreground px-8 text-base font-semibold text-primary shadow-lg hover:bg-primary-foreground/90"
             >
-              <Link href="/tutors">
-                Browse Tutors
+              <Link href="/request-tutor">
+                Request a Tutor
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              asChild
-              className="rounded-sm border-primary-foreground/30 bg-transparent px-8 text-base font-medium text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
-            >
-              <Link href="/become-tutor">Become a Tutor</Link>
-            </Button>
+            <div className="inline-flex items-center gap-2 rounded-sm border border-primary-foreground/30 px-6 py-3 text-sm text-primary-foreground/80">
+              <MessageSquare className="h-4 w-4" />
+              Admin handles tutor selection manually
+            </div>
           </div>
         </div>
       </div>

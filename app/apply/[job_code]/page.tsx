@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, Lock, FileWarning } from 'lucide-react'
 import { ApplyButton } from './ApplyButton'
-import { enableOpenForJobs } from './actions'
 
 export default async function TutorApplyPage({ params }: { params: Promise<{ job_code: string }> }) {
   const resolvedParams = await params
@@ -57,31 +56,31 @@ export default async function TutorApplyPage({ params }: { params: Promise<{ job
     return (
       <div className="p-8 max-w-xl mx-auto flex flex-col items-center text-center space-y-4">
         <FileWarning className="h-16 w-16 text-amber-500" />
-        <h1 className="text-2xl font-bold">Profile Not Found</h1>
-        <p className="text-muted-foreground">You must complete your tutor profile before you can apply to jobs.</p>
-        <Button asChild><a href="/become-tutor">Complete Profile</a></Button>
+        <h1 className="text-2xl font-bold">Tutor Profile Not Found</h1>
+        <p className="text-muted-foreground">Ask admin to create and verify your tutor profile before applying.</p>
+        <Button asChild><a href="/">Back Home</a></Button>
       </div>
     )
   }
 
   if (!tutor.is_verified) {
-    redirect('/become-tutor/success')
+    return (
+      <div className="p-8 max-w-xl mx-auto flex flex-col items-center text-center space-y-4">
+        <Lock className="h-16 w-16 text-amber-500" />
+        <h1 className="text-2xl font-bold">Verification Pending</h1>
+        <p className="text-muted-foreground">Your tutor profile is not verified yet. Admin must approve it before you can apply.</p>
+        <Button variant="outline" asChild><a href="/">Back Home</a></Button>
+      </div>
+    )
   }
 
   if (!tutor.is_open_for_jobs) {
-    async function openJobsAction() {
-      'use server'
-      await enableOpenForJobs(jobCode)
-    }
-
     return (
       <div className="p-8 max-w-xl mx-auto flex flex-col items-center text-center space-y-4">
         <Lock className="h-16 w-16 text-amber-500" />
         <h1 className="text-2xl font-bold">Open for Jobs is Off</h1>
         <p className="text-muted-foreground">Enable Open for Jobs in your tutor profile to apply for opportunities.</p>
-        <form action={openJobsAction}>
-          <Button variant="outline" type="submit">Turn On Open for Jobs</Button>
-        </form>
+        <Button variant="outline" asChild><a href="/">Back Home</a></Button>
       </div>
     )
   }

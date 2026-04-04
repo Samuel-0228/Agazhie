@@ -19,20 +19,18 @@ export function Hero() {
 
       <div className="relative z-10 flex w-full flex-col items-center px-6 pt-32 pb-40 text-center">
         <h1
-          className="animate-fade-rise max-w-7xl text-5xl leading-[0.95] tracking-[-2.46px] text-foreground sm:text-7xl md:text-8xl"
-          style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400 }}
+          className="font-display animate-fade-rise max-w-7xl text-5xl font-normal leading-[0.95] tracking-[-2.46px] text-foreground sm:text-7xl md:text-8xl"
         >
           Find <em className="not-italic text-muted-foreground">trusted tutors</em> for{' '}
           <em className="not-italic text-muted-foreground">focused learning at home.</em>
         </h1>
 
         <p className="animate-fade-rise-delay mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Agazhie connects families with verified university students and graduates across Ethiopia.
-          From daily school support to EUEE and SAT preparation, we help you find the right tutor with clarity and confidence.
+          Agazhie helps families submit a tutoring request, then the admin team matches and manages the right support.
         </p>
 
         <Link
-          href="/request"
+          href="/request-tutor"
           className="liquid-glass animate-fade-rise-delay-2 mt-12 inline-flex cursor-pointer rounded-full px-14 py-5 text-base text-foreground transition-transform hover:scale-[1.03]"
         >
           <span className="relative z-10">Request a Tutor</span>
