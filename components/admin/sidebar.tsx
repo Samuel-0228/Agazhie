@@ -8,8 +8,12 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   GraduationCap,
   LayoutDashboard,
+  Users,
+  UserCheck,
   MessageSquare,
+  Settings,
   LogOut,
+  ClipboardList,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -21,9 +25,29 @@ const navItems = [
     icon: LayoutDashboard,
   },
   {
+    title: 'Tutor Applications',
+    href: '/admin/applications',
+    icon: ClipboardList,
+  },
+  {
+    title: 'Tutors',
+    href: '/admin/tutors',
+    icon: UserCheck,
+  },
+  {
     title: 'Parent Requests',
     href: '/admin/requests',
     icon: MessageSquare,
+  },
+  {
+    title: 'Users',
+    href: '/admin/users',
+    icon: Users,
+  },
+  {
+    title: 'Settings',
+    href: '/admin/settings',
+    icon: Settings,
   },
 ]
 
@@ -40,7 +64,7 @@ export function AdminSidebar() {
   return (
     <div className="flex h-screen w-64 flex-col border-r border-border bg-card">
       <div className="flex h-16 items-center gap-2 border-b border-border px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-primary">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
           <GraduationCap className="h-4 w-4 text-primary-foreground" />
         </div>
         <span className="font-bold">አጋዤ Admin</span>
